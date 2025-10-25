@@ -5,23 +5,30 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dev-server": "nodemon server.js",
+    "dev-server": "nodemon backend/server.js",
     "start-server": "node server.js"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.11",
     "axios": "^1.11.0",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.7.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.525.0",
+    "mongoose": "^8.18.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.7.0",
     "redux": "^5.0.1",
+    "stripe": "^18.5.0",
     "vite-plugin-qrcode": "^0.3.0"
   },
   "devDependencies": {
