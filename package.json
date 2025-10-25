@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "dev-server": "nodemon backend/server.js",
-    "start-server": "node server.js"
+    "start-server": "node backend/.js"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.11",
