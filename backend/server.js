@@ -8,7 +8,11 @@ import { connectDb } from './lib/db.js'
 import dotenv from 'dotenv' 
 import cookieParser from 'cookie-parser'
 import cors from 'cors';
-import path from 'path'
+import path from 'path';
+import { fileURLToPath } from 'url'; 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables
 dotenv.config()
@@ -16,7 +20,7 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 3000
 
-const _dirname = path.resolve()
+
 
 
 app.use(cors({
