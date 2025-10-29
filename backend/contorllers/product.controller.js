@@ -1,5 +1,6 @@
 import Product from '../models/product.model.js'
 import cloudinary from '../lib/cloudinary.js'
+import e from 'cors'
 
 export const getAllProducts = async (req, res) => {
     try {
@@ -70,7 +71,12 @@ export const createProduct = async (req, res) => {
         res.status(201).json(product)
 
     } catch (error) {
-        
+        console.error("Error in createProduct controller:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message
+              });
     }
 }
 
