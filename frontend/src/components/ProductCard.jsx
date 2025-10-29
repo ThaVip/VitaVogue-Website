@@ -8,20 +8,14 @@ const ProductCard = ({ product }) => { // âœ… Changed from products to produ
     const { user } = useUserStore();
     const { addToCart } = useCartStore();
 
-const handleAddToCart = (e) => {
-    console.log('Button clicked!'); // ✅ Check if this logs
-    alert('Button clicked!'); // ✅ This will show on mobile
-    
-    e?.preventDefault();
-    e?.stopPropagation();
-    
-    if (!user) {
-        toast.error("Please login to add products to cart", { id: "login" });
-        return;
-    } else {
-        addToCart(product);
-    }
-};
+    const handleAddToCart = () => {
+        if (!user) {
+            toast.error("Please login to add products to cart", { id: "login" });
+            return;
+        } else {
+            addToCart(product); // âœ… Pass single product
+        }
+    };
 
     return (
         <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-yellow-400 overflow-hidden group">
@@ -47,11 +41,11 @@ const handleAddToCart = (e) => {
                     N{product.price.toLocaleString()}
                 </p>
                 <button
-                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 text-black font-bold py-3 px-6 rounded-lg md:hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2"
+                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 text-black font-bold py-3 px-6 rounded-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
                     onClick={handleAddToCart}
-                    type="button"
+                    type='button'
                 >
-                    <ShoppingCart className='w-5 h-5' />
+                    <ShoppingCart className="w-5 h-5" />
                     Add to Cart
                 </button>
             </div>
