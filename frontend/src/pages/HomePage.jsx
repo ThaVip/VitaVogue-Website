@@ -10,7 +10,7 @@ import { useProductStore } from '../store/useProductStore';
 const HomePage = () => {
   const categories = [
   { id: 'casual', name: 'Casual Wear', imageUrl: '/casual.jpeg', desc: 'Comfortable and trendy everyday outfits' },
-  { id: 'formal', name: "Men's Wear", imageUrl: '/mens.jpeg', desc: 'Professional attire for office and business' },
+  { id: 'formal', name: "Formal Wear", imageUrl: '/mens.jpeg', desc: 'Professional attire for office and business' },
   { id: 'bridal', name: 'Bridal Wear', imageUrl: '/Bridal.jpeg', desc: 'Elegant wedding and special occasion dresses' },
   { id: 'accessories', name: 'Accessories', imageUrl: '/accessories.jpeg', desc: 'Bags, jewelry, and fashion accessories' },
 ];

@@ -1,8 +1,8 @@
 const categories = [
-  { id: 'casual', name: 'Casual Wear', emoji: '👕', desc: 'Comfortable and trendy everyday outfits' },
-  { id: 'formal', name: "Men's Wear", emoji: '👔', desc: 'Professional attire for office and business' },
-  { id: 'bridal', name: 'Bridal Wear', emoji: '👰', desc: 'Elegant wedding and special occasion dresses' },
-  { id: 'accessories', name: 'Accessories', emoji: '👜', desc: 'Bags, jewelry, and fashion accessories' },
+  { id: 'casual', name: 'Casual Wear', desc: 'Comfortable and trendy everyday outfits' },
+  { id: 'formal', name: "Formal Wear",  desc: 'Professional attire for office and business' },
+  { id: 'bridal', name: 'Bridal Wear',  desc: 'Elegant wedding and special occasion dresses' },
+  { id: 'accessories', name: 'Accessories', desc: 'Bags, jewelry, and fashion accessories' },
 ];
 
 const navigation = [
@@ -61,7 +61,7 @@ export default function Footer({ currentPage, setCurrentPage }) {
                       onClick={() => setCurrentPage(category.id)}
                       className="text-gray-300 hover:text-yellow-400 transition-colors text-left"
                     >
-                      {category.emoji} {category.name}
+                     {category.name}
                     </button>
                   </li>
                 ))}
