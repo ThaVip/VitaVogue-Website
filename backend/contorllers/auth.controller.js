@@ -1,9 +1,8 @@
 import User from "../models/user.model.js"
 import jwt from "jsonwebtoken"
 
-
 const generateToken = (userId) => {
-    const accessToken = jwt.sign({userId}, process.env.ACCESS_TOKEN,{
+    const accessToken = jwt.sign({userId}, process.env.ACCESS_TOKEN, {
         expiresIn: '15m'
     })
 
@@ -14,86 +13,76 @@ const generateToken = (userId) => {
     return {accessToken, refreshToken}
 }
 
-// const storeRefreshToken = async (userid, refreshtoken) => {
-//       await Redis.set(`refresh_token:${userid}`, refreshtoken, "EX","7*24*60*60")
-// }
-
-  const setCookies = (res, accesstoken, refreshtoken) => {
-        res.cookie("accessToken", accesstoken, {
-            httpOnly: true,// Protection from XXR
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",// protrection from CSRF
-            
-        })
-         res.cookie("refreshToken", refreshtoken, {
-            httpOnly: true,// Protection from XXR
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",// protrection from CSRF
-            maxAge: 7*24*60*60*1000,// 7days
-        })
-    }    
- 
+// ✅ Fixed setCookies for cross-origin production
+const setCookies = (res, accesstoken, refreshtoken) => {
+    const isProduction = process.env.NODE_ENV === "production";
+    
+    res.cookie("accessToken", accesstoken, {
+        httpOnly: true,
+        secure: isProduction, // true in production
+        sameSite: isProduction ? "none" : "strict", // ✅ Changed to "none" for production
+        maxAge: 15 * 60 * 1000, // 15 minutes
+    })
+    
+    res.cookie("refreshToken", refreshtoken, {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "strict", // ✅ Changed to "none" for production
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    })
+}
 
 export const signup = async (req, res) => {
     const {email, password, phone, name} = req.body
     try {
         const userExists = await User.findOne({email})
 
-    if(userExists){
-        return res.status(400).json({
-            success: false,
-            message: "user already exists"
+        if(userExists){
+            return res.status(400).json({
+                success: false,
+                message: "user already exists"
+            })
+        }
+
+        const user = await User.create({name, email, phone, password})
+
+        const {accessToken, refreshToken} = generateToken(user._id)
+
+        setCookies(res, accessToken, refreshToken)
+        
+        res.status(201).json({
+            success: true,
+            user:{
+                userId: user._id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                role: user.role
+            },
+            message: "user was created successfully"
         })
-    }
-
-    const user = await User.create({name, email, phone, password})
-
-     //Authorize user by creating an authenticaation token
-    const {accessToken, refreshToken} = generateToken(user._id)
-    // await storeRefreshToken(user._id,refreshToken)
-
-
-    setCookies(res,accessToken,refreshToken)
-    
-    res.status(201).json({
-        success: true,
-        user:{
-            userId:user._id,
-            name:user.name,
-            email:user.email,
-            phone:user.phone,
-            role:user.role
-        },
-        message: "user was created successfully"})
-
-     
     } catch (error) {
-       res.status(500).json({message: error.message}) 
+        res.status(500).json({message: error.message}) 
     }
-    
-   
 }
 
 export const logout = async (req, res) => {
     try {
-     const refreshToken = req.cookies.refreshToken;
-     if(refreshToken){
-        const decoded = jwt.verify(refreshToken,process.env.REFRESH_TOKEN);
-     }  
-     
-      res.clearCookie("accessToken", {
+        const isProduction = process.env.NODE_ENV === "production";
+        
+        res.clearCookie("accessToken", {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict"
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "strict" // ✅ Fixed
         });
+        
         res.clearCookie("refreshToken", {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict"
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "strict" // ✅ Fixed
         });
 
-     res.json({message: "Logout successful"});
-
+        res.json({message: "Logout successful"});
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -111,16 +100,16 @@ export const login = async (req, res) => {
         if(user && (await user.comparePasswords(password))){
             const {accessToken, refreshToken} = generateToken(user._id);
 
-            setCookies(res,accessToken,refreshToken)
+            setCookies(res, accessToken, refreshToken)
 
             res.json({
                 userId: user._id,
-                name:user.name,
-                email:user.email,
-                role:user.role
+                name: user.name,
+                email: user.email,
+                role: user.role
             })
-        }else{
-            res.status(401).json({message:"Invalid email or password"})
+        } else {
+            res.status(401).json({message: "Invalid email or password"})
         }
     } catch (error) {
         console.log("Error in login controller", error.message)
@@ -131,51 +120,47 @@ export const login = async (req, res) => {
 }
 
 export const refreshToken = async (req, res) => {
-     try {
-        //getthe refresh token from cookie
-       const refreshToken = req.cookies.refreshToken;
-       
-       //Check if the token exists
-       if(!refreshToken){
+    try {
+        const refreshToken = req.cookies.refreshToken;
+        
+        if(!refreshToken){
             return res.status(401).json({message: "No refresh token provided"});
-       }
+        }
 
-       //Decode/verify refresh token
-       const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN)
-      
-       //get your stored user refresh token through redis with decoded userId
-       const storedRefreshToken = await redis.get(`refresh_token:${decoded.userId}`)
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN)
 
-       //compare tokens
-       if(storedRefreshToken !== refreshToken){
-        return res.status(401).json({message: "invalid refresh token"})
-       }
+        // Note: Redis code commented out - implement if needed
+        // const storedRefreshToken = await redis.get(`refresh_token:${decoded.userId}`)
+        // if(storedRefreshToken !== refreshToken){
+        //     return res.status(401).json({message: "invalid refresh token"})
+        // }
 
+        const accessToken = jwt.sign({userId: decoded.userId}, process.env.ACCESS_TOKEN, {
+            expiresIn: '15m'
+        })
 
-       //Generate a new access token
-       const accessToken = jwt.sign({userId: decoded.userId}, process.env.ACCESS_TOKEN)
+        const isProduction = process.env.NODE_ENV === "production";
+        
+        res.cookie("accessToken", accessToken, {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "strict", // ✅ Fixed
+            maxAge: 15 * 60 * 1000, 
+        })
 
-       //set access token cookie
-       res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 15*60*1000, 
-       })
-
-       res.status(201).json({message: "Token Refreshed Successfully"})
-     } catch (error) {
+        res.status(200).json({message: "Token Refreshed Successfully"})
+    } catch (error) {
         console.log("Error in refreshToken controller", error.message)
         res.status(500).json({message: "server error", error: error.message})
-     }
+    }
 }
 
 export const getUserProfile = async (req, res) => {
     try {
-        const user = await req.body
+        const user = req.user; // ✅ Fixed: was req.body, should be req.user from middleware
         res.json(user)
     } catch (error) {
         console.log("user not found", error.message)
-        res.status(500).json({message:"server error", error: error.message})
+        res.status(500).json({message: "server error", error: error.message})
     }
 }
