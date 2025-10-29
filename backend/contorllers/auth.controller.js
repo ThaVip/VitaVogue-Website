@@ -13,23 +13,26 @@ const generateToken = (userId) => {
     return {accessToken, refreshToken}
 }
 
-// ✅ Fixed setCookies for cross-origin production
+// ✅ Fixed setCookies with Partitioned attribute
 const setCookies = (res, accesstoken, refreshtoken) => {
     const isProduction = process.env.NODE_ENV === "production";
     
-    res.cookie("accessToken", accesstoken, {
-        httpOnly: true,
-        secure: isProduction, // true in production
-        sameSite: isProduction ? "none" : "strict", // ✅ Changed to "none" for production
-        maxAge: 15 * 60 * 1000, // 15 minutes
-    })
-    
-    res.cookie("refreshToken", refreshtoken, {
+    const cookieOptions = {
         httpOnly: true,
         secure: isProduction,
-        sameSite: isProduction ? "none" : "strict", // ✅ Changed to "none" for production
+        sameSite: isProduction ? "none" : "strict",
+        partitioned: isProduction, // ✅ Prevents Chrome warning
+    };
+    
+    res.cookie("accessToken", accesstoken, {
+        ...cookieOptions,
+        maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+    
+    res.cookie("refreshToken", refreshtoken, {
+        ...cookieOptions,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    })
+    });
 }
 
 export const signup = async (req, res) => {
@@ -70,17 +73,15 @@ export const logout = async (req, res) => {
     try {
         const isProduction = process.env.NODE_ENV === "production";
         
-        res.clearCookie("accessToken", {
+        const cookieOptions = {
             httpOnly: true,
             secure: isProduction,
-            sameSite: isProduction ? "none" : "strict" // ✅ Fixed
-        });
+            sameSite: isProduction ? "none" : "strict",
+            partitioned: isProduction, // ✅ Prevents Chrome warning
+        };
         
-        res.clearCookie("refreshToken", {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "none" : "strict" // ✅ Fixed
-        });
+        res.clearCookie("accessToken", cookieOptions);
+        res.clearCookie("refreshToken", cookieOptions);
 
         res.json({message: "Logout successful"});
     } catch (error) {
@@ -129,12 +130,6 @@ export const refreshToken = async (req, res) => {
 
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN)
 
-        // Note: Redis code commented out - implement if needed
-        // const storedRefreshToken = await redis.get(`refresh_token:${decoded.userId}`)
-        // if(storedRefreshToken !== refreshToken){
-        //     return res.status(401).json({message: "invalid refresh token"})
-        // }
-
         const accessToken = jwt.sign({userId: decoded.userId}, process.env.ACCESS_TOKEN, {
             expiresIn: '15m'
         })
@@ -144,7 +139,8 @@ export const refreshToken = async (req, res) => {
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: isProduction,
-            sameSite: isProduction ? "none" : "strict", // ✅ Fixed
+            sameSite: isProduction ? "none" : "strict",
+            partitioned: isProduction, // ✅ Prevents Chrome warning
             maxAge: 15 * 60 * 1000, 
         })
 
@@ -157,7 +153,7 @@ export const refreshToken = async (req, res) => {
 
 export const getUserProfile = async (req, res) => {
     try {
-        const user = req.user; // ✅ Fixed: was req.body, should be req.user from middleware
+        const user = req.user;
         res.json(user)
     } catch (error) {
         console.log("user not found", error.message)
