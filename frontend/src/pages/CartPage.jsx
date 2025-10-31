@@ -68,24 +68,14 @@ const CartPage = () => {
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal ({cart.length} {cart.length === 1 ? 'item' : 'items'})</span>
-                    <span className="font-semibold">${subtotal.toFixed(2)}</span>
-                  </div>
-                  
-                  <div className="flex justify-between text-gray-600">
-                    <span>Shipping</span>
-                    <span className="font-semibold text-green-600">FREE</span>
-                  </div>
-                  
-                  <div className="flex justify-between text-gray-600">
-                    <span>Tax</span>
-                    <span className="font-semibold">Calculated at checkout</span>
+                    <span className="font-semibold">N{subtotal.toFixed(2)}</span>
                   </div>
                   
                   <div className="border-t border-gray-200 pt-4">
                     <div className="flex justify-between items-center">
                       <span className="text-lg font-bold text-gray-800">Total</span>
                       <span className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
-                        ${total.toFixed(2)}
+                        N{total.toFixed(2)}
                       </span>
                     </div>
                   </div>
