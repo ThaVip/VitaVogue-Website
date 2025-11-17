@@ -5,10 +5,40 @@ import CartItem from "../components/CartItem";
 import PeopleAlsoBought from "../components/PeopleAlsoBought";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import axios from "../../lib/axios";
 
 const CartPage = () => {
-  const { cart, total, subtotal } = useCartStore();
+  const { cart, total, subtotal} = useCartStore();
 
+   const handlePayment = async () => {
+       
+        
+        try {
+            // Create checkout session
+            const response = await axios.post('/payments/create-checkout-session', {
+              //send the cart items to the Api
+                products: cart.map(item => ({
+                    _id: item._id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    image: item.image
+                }))
+            });
+
+            if (response.data.success) {
+                // Redirect to Paystack payment page
+                window.location.href = response.data.authorization_url;
+            } else {
+                alert('Failed to initialize payment');
+            }
+
+        } catch (error) {
+            console.error('Payment error:', error);
+            alert('Payment failed. Please try again.');
+        } 
+        
+      }
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -81,7 +111,9 @@ const CartPage = () => {
                   </div>
                 </div>
 
-                <button className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-6 py-4 rounded-full font-bold hover:scale-105 transition-transform duration-300 mb-4">
+                <button 
+                onClick={handlePayment}
+                className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-6 py-4 rounded-full font-bold hover:scale-105 transition-transform duration-300 mb-4">
                   Proceed to Checkout
                 </button>
 

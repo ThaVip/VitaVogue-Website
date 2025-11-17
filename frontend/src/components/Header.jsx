@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Search, ShoppingCart, Menu, X, Lock, LogOut, UserPlus, LogIn } from 'lucide-react';
+import { Search, ShoppingBagIcon, Menu, X, Lock, LogOut, UserPlus, LogIn } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useUserStore } from '../store/useUserStore';
 import { useCartStore } from '../store/useCartStore';
 
 const navigation = [
   { id: 1, name: 'Home', go: '/' },
-  { id: 2, name: 'Shop', go: '/shop' },
+  { id: 2, name: 'Custom-design', go: '/custom-design' },
   { id: 3, name: 'About', go: '/about' },
   { id: 4, name: 'Contact', go: '/contact' }
 ];
@@ -82,7 +82,7 @@ export default function Header() {
               to='/cart'
               className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-3 py-2 rounded-full font-bold hover:scale-105 transition-transform duration-200 flex items-center space-x-2"
             >
-              <ShoppingCart className="w-5 h-5" />
+              <ShoppingBagIcon className="w-5 h-5" />
               <span>Cart</span>
               {getCartItemCount() > 0 && (
                 <span className="bg-black text-yellow-400 rounded-full w-6 h-6 flex items-center justify-center text-sm">
@@ -138,7 +138,7 @@ export default function Header() {
               to='/cart'
               className="relative p-2 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full"
             >
-              <ShoppingCart className="w-5 h-5 text-black" />
+              <ShoppingBagIcon className="w-5 h-5 text-black" />
               {getCartItemCount() > 0 && (
                 <span className="absolute -top-1 -right-1 bg-black text-yellow-400 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
                   {getCartItemCount()}

@@ -22,7 +22,7 @@ const CategoryPage = () => {
   // Category data for display
   const categoryData = {
     casual: { name: 'Casual Wear', desc: 'Comfortable and trendy everyday outfits' },
-    formal: { name: 'Formal Wear', desc: 'Professional attire for office and business' },
+    formal: { name: 'Fabrics', desc: 'Professional attire for office and business' },
     bridal: { name: 'Bridal Wear',  desc: 'Elegant wedding and special occasion dresses' },
     accessories: { name: 'Accessories',  desc: 'Bags, jewelry, and fashion accessories' },
   };

@@ -11,6 +11,9 @@ import CategoryPage from './pages/CategoryPage';
 import { useUserStore } from './store/useUserStore';
 import { useCartStore } from './store/useCartStore';
 import CartPage from './pages/CartPage';
+import PurchaseCancelPage from './pages/PurchaseCancelPage';
+import PurchaseSuccessPage from './pages/PurchaseSuccessPage';
+import CustomDesignPage from './pages/CustomDesignPage';
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
@@ -44,6 +47,7 @@ function App() {
         <Toaster position="top-right" />
         <Routes>
           <Route path="/" element={<HomePage />} />
+           <Route path="/custom-design" element={<CustomDesignPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/category/:category" element={<CategoryPage />} />
@@ -89,6 +93,11 @@ function App() {
               </div>
             } 
           />
+          <Route
+						path='/purchase-successful'
+						element={user ? <PurchaseSuccessPage /> : <Navigate to='/login' />}
+					/>
+					<Route path='/purchase-cancel' element={user ? <PurchaseCancelPage /> : <Navigate to='/login' />} />
         </Routes>
       </BrowserRouter>
     </>

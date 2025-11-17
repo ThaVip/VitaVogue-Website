@@ -40,7 +40,7 @@ export const useUserStore = create((set, get) => ({
 
         try {
             const res = await axios.post("/auth/login", { email, password });
-            set({ user: res.data, loading: false });
+            set({ user: res.data.user, loading: false });
             toast.success("Welcome back!");
             return { success: true };
         } catch (error) {
@@ -74,7 +74,6 @@ export const useUserStore = create((set, get) => ({
             const response = await axios.get("/auth/profile");
             set({ user: response.data, checkingAuth: false });
         } catch (error) {
-            console.log("Not authenticated:", error.message);
             set({ checkingAuth: false, user: null });
         }
     },
