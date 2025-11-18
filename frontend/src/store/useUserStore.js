@@ -18,6 +18,7 @@ export const useUserStore = create((set, get) => ({
         try {
             const res = await axios.post("/auth/signup", { name, email, phone, password });
             set({ user: res.data.user, loading: false }); // ✅ Extract user from response
+            await get().checkAuth();
             toast.success("Account created successfully!");
             return { success: true };
         } catch (error) {
@@ -41,6 +42,7 @@ export const useUserStore = create((set, get) => ({
         try {
             const res = await axios.post("/auth/login", { email, password });
             set({ user: res.data.user, loading: false });
+            await get().checkAuth();
             toast.success("Welcome back!");
             return { success: true };
         } catch (error) {
