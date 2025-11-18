@@ -19,9 +19,11 @@ const setCookies = (res, accesstoken, refreshtoken) => {
     
     const cookieOptions = {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "none" : "strict",
-        partitioned: isProduction, // ✅ Prevents Chrome warning
+        secure: isProduction, // Must be true in production
+        sameSite: isProduction ? "none" : "lax", // ✅ Changed from "strict" to "lax"
+        partitioned: isProduction,
+        path: '/', // ✅ Add explicit path
+        domain: isProduction ? process.env.COOKIE_DOMAIN : undefined, // ✅ Add domain
     };
     
     res.cookie("accessToken", accesstoken, {
@@ -53,6 +55,7 @@ export const signup = async (req, res) => {
 
         setCookies(res, accessToken, refreshToken)
         
+        // ✅ Return tokens in response for localStorage
         res.status(201).json({
             success: true,
             user:{
@@ -62,13 +65,14 @@ export const signup = async (req, res) => {
                 phone: user.phone,
                 role: user.role
             },
+            accessToken,  // ✅ Add this
+            refreshToken, // ✅ Add this
             message: "user was created successfully"
         })
     } catch (error) {
         res.status(500).json({message: error.message}) 
     }
 }
-
 export const logout = async (req, res) => {
     try {
         const isProduction = process.env.NODE_ENV === "production";
@@ -103,11 +107,17 @@ export const login = async (req, res) => {
 
             setCookies(res, accessToken, refreshToken)
 
+            // ✅ Return tokens in response for localStorage
             res.json({
-                userId: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role
+                success:true,
+                user:{
+                    userId: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role
+                },
+                accessToken,  // ✅ Add this
+                refreshToken  // ✅ Add this
             })
         } else {
             res.status(401).json({message: "Invalid email or password"})
@@ -122,7 +132,8 @@ export const login = async (req, res) => {
 
 export const refreshToken = async (req, res) => {
     try {
-        const refreshToken = req.cookies.refreshToken;
+        // ✅ Accept token from body OR cookie
+        const refreshToken = req.body.refreshToken || req.cookies.refreshToken;
         
         if(!refreshToken){
             return res.status(401).json({message: "No refresh token provided"});
@@ -139,12 +150,16 @@ export const refreshToken = async (req, res) => {
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: isProduction,
-            sameSite: isProduction ? "none" : "strict",
-            partitioned: isProduction, // ✅ Prevents Chrome warning
+            sameSite: isProduction ? "none" : "lax",
+            partitioned: isProduction,
             maxAge: 15 * 60 * 1000, 
         })
 
-        res.status(200).json({message: "Token Refreshed Successfully"})
+        // ✅ Return new token in response
+        res.status(200).json({
+            message: "Token Refreshed Successfully",
+            accessToken  // ✅ Add this
+        })
     } catch (error) {
         console.log("Error in refreshToken controller", error.message)
         res.status(500).json({message: "server error", error: error.message})
