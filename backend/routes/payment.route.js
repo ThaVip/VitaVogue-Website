@@ -1,5 +1,5 @@
 import express from 'express'
-import { protectedRoute } from '../middileware/auth.middleware.js'
+import { protectedRoute } from '../middleware/auth.middleware.js'
 import { checkoutSuccess, createCheckOutSession } from '../contorllers/payment.controller.js'
 
 

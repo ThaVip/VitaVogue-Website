@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
-export const protectRoute = async (req, res, next) => {
+export const protectedRoute = async (req, res, next) => {
     try {
         // ✅ Check for token in Authorization header first, then cookie
         let accessToken = req.headers.authorization?.replace('Bearer ', '');
