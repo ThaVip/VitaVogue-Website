@@ -21,10 +21,10 @@ const CategoryPage = () => {
 
   // Category data for display
   const categoryData = {
-    casual: { name: 'Casual Wear', desc: 'Comfortable and trendy everyday outfits' },
-    fabric: { name: 'Fabrics', desc: 'Professional attire for office and business' },
+    casual: { name: 'Casual Wear', desc: 'Comfortable and trendy everyday outfits including kaftans and relaxed wear' },
+    fabric: { name: 'Fabrics', desc: 'Premium quality fabrics and materials for your sewing and fashion projects'},
     bridal: { name: 'Bridal Wear',  desc: 'Elegant wedding and special occasion dresses' },
-    accessories: { name: 'Accessories',  desc: 'Bags, jewelry, and fashion accessories' },
+    accessories: { name: 'Accessories',  desc: 'Bags,jewelry and fashion accessories' },
   };
 
   const currentCategory = categoryData[category];

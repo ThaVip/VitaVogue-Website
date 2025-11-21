@@ -1,6 +1,6 @@
 const categories = [
   { id: 'casual', name: 'Casual Wear', desc: 'Comfortable and trendy everyday outfits' },
-  { id: 'fabrics', name: "Luxe Fabrics",  desc: 'Professional attire for office and business' },
+  { id: 'fabric', name: "Luxe Fabrics",  desc: 'Professional attire for office and business' },
   { id: 'bridal', name: 'Bridal Wear',  desc: 'Elegant wedding and special occasion dresses' },
   { id: 'accessories', name: 'Accessories', desc: 'Bags, jewelry, and fashion accessories' },
 ];
@@ -8,7 +8,7 @@ const categories = [
 const navigation = [
   { id: 'home', name: 'Home' },
   { id: 'casual', name: 'Casual Wear' },
-  { id: 'fabrics', name: "Luxe Fabrics" },
+  { id: 'fabric', name: "Luxe Fabrics" },
   { id: 'bridal', name: 'Bridal Wear' },
   { id: 'accessories', name: 'Accessories' },
   { id: 'about', name: 'About' },
