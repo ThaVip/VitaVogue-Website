@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 
 const CustomDesignPage = () => {
   // Replace with your actual WhatsApp business number (format: 1234567890)
-  const whatsappNumber = "2348146190450";
+  const whatsappNumber = "2347045616961";
   const whatsappMessage = "Hi Vitavogue! I'm interested in creating a custom design.";
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 

@@ -29,11 +29,11 @@ const HomePage = () => {
       <section className="py-8 sm:py-12 md:py-16 lg:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6 sm:mb-8 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
               Shop by Category
             </h2>
-            <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
-              Explore our curated collections of fashion essentials, from everyday wear to special occasions
+            <p className="text-gray-700 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
+              Explore our curated collections of fashion essentials from everyday wear to special occasions
             </p>
           </div>
           
@@ -47,7 +47,7 @@ const HomePage = () => {
           {!isLoading && products.length > 0 && (
             <div className="mt-12 sm:mt-16 md:mt-20 lg:mt-24">
               <div className="text-center mb-6 sm:mb-8 md:mb-12">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
                   Featured Products
                 </h2>
                 <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">

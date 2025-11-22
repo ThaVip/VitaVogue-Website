@@ -40,7 +40,7 @@ const CategoryPage = () => {
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Category Not Found</h2>
             <Link
               to="/"
-              className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform duration-300"
+              className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform duration-300"
             >
               Back to Home
             </Link>
@@ -68,7 +68,7 @@ const CategoryPage = () => {
 
           {/* Category Header */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent capitalize">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent capitalize">
               {currentCategory.name}
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">{currentCategory.desc}</p>
@@ -77,7 +77,7 @@ const CategoryPage = () => {
           {/* Loading State */}
           {loading && (
             <div className="text-center py-12">
-              <div className="inline-block w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+              <div className="inline-block w-12 h-12 border-4 border-yellow-600 border-t-transparent rounded-full animate-spin"></div>
               <p className="mt-4 text-gray-600">Loading products...</p>
             </div>
           )}
