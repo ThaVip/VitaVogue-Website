@@ -22,10 +22,13 @@ const CategoryCard = ({ category }) => {
 
         {/* Category Info - Adjusted padding for mobile */}
         <div className="p-3 sm:p-4 md:p-6 text-center">
-          <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-800 mb-1 sm:mb-2">
+          <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-800 mb-1 sm:mb-2"
+          style={{ fontFamily: "'Playfair Display', serif" }}
+          >
             {category.name}
           </h3>
-          <p className="text-gray-600 text-xs sm:text-sm line-clamp-2">
+          <p className="text-black-600 text-xs sm:text-sm line-clamp-2"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {category.desc}
           </p>
         </div>

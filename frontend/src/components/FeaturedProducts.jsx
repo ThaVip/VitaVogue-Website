@@ -56,7 +56,8 @@ const FeaturedProducts = ({ featuredProducts }) => {
                     </div>
                     
                     <div className='p-3 sm:p-4 md:p-5 lg:p-6'>
-                      <h3 className='text-sm sm:text-base md:text-lg lg:text-xl font-bold mb-1 sm:mb-2 text-gray-900 line-clamp-1'>
+                      <h3 className='text-sm sm:text-base md:text-lg lg:text-xl font-bold mb-1 sm:mb-2 text-gray-900 line-clamp-1'
+                      style={{ fontFamily: "'Italiana', serif" }}>
                         {product.name}
                       </h3>
                       <p className='text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 md:mb-4 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent'>
