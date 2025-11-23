@@ -30,13 +30,6 @@ export default function Hero(){
             
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <Link 
-                to='/login'
-                className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-bold hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 transform hover:-translate-y-1 w-full sm:w-auto tracking-wide"
-              >
-                Shop Now
-              </Link>
-              
-              <Link 
                 to='/about'
                 className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-black transition-all duration-300 backdrop-blur-sm w-full sm:w-auto tracking-wide"
               >

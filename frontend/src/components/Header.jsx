@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, ShoppingBag, Menu, X, Lock, LogOut, UserPlus, LogIn } from 'lucide-react';
+import { Search, ShoppingCart, Menu, X, Lock, LogOut, UserPlus, LogIn } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useUserStore } from '../store/useUserStore';
 import { useCartStore } from '../store/useCartStore';
@@ -87,9 +87,9 @@ export default function Header() {
             {/* Cart */}
             <Link 
               to='/cart'
-              className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-3 py-2 rounded-full font-bold hover:scale-105 transition-transform duration-200 flex items-center space-x-2 shadow-lg"
+              className=" text-black px-3 py-2 rounded-full font-bold hover:scale-105 transition-transform duration-200 flex items-center space-x-2 shadow-lg"
             >
-              <ShoppingBag className="w-5 h-5" />
+              <ShoppingCart className="w-5 h-5" />
               <span>Cart</span>
               {getCartItemCount() > 0 && (
                 <span className="bg-black text-yellow-400 rounded-full w-6 h-6 flex items-center justify-center text-sm">
@@ -143,9 +143,9 @@ export default function Header() {
             {/* Mobile Cart Icon */}
             <Link 
               to='/cart'
-              className="relative p-2 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full shadow-lg"
+              className="rounded-full shadow-lg"
             >
-              <ShoppingBag className="w-5 h-5 text-black" />
+              <ShoppingCart className="w-5 h-5 text-gradient-to-r from-yellow-400 via-yellow-300 to-orange-400" />
               {getCartItemCount() > 0 && (
                 <span className="absolute -top-1 -right-1 bg-black text-yellow-400 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
                   {getCartItemCount()}
