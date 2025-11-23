@@ -14,6 +14,7 @@ import CartPage from './pages/CartPage';
 import PurchaseCancelPage from './pages/PurchaseCancelPage';
 import PurchaseSuccessPage from './pages/PurchaseSuccessPage';
 import CustomDesignPage from './pages/CustomDesignPage';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
@@ -45,6 +46,7 @@ function App() {
     <>
       <BrowserRouter>
         <Toaster position="top-right" />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />
            <Route path="/custom-design" element={<CustomDesignPage />} />

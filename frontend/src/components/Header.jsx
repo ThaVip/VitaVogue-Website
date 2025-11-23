@@ -147,7 +147,7 @@ export default function Header() {
             >
               <ShoppingCart className="w-5 h-5 text-gradient-to-r from-yellow-400 via-yellow-300 to-orange-400" />
               {getCartItemCount() > 0 && (
-                <span className="absolute -top-1 -right-1 bg-black text-yellow-400 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                <span className="absolute -top-1 -right-0.5 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
                   {getCartItemCount()}
                 </span>
               )}
