@@ -31,12 +31,21 @@ function App() {
     }
   }, [user, getCartItems]);
 
+
   if (checkingAuth) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="inline-block w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mb-4"></div>
-          <p className="text-xl text-gray-600">Loading...</p>
+          <div className="inline-block mb-4">
+            <img 
+              src="/shrek.jpg" // Remove /public/ - files in public folder are accessed from root
+              alt="Vitavogue" 
+              className="w-20 h-20 sm:w-24 sm:h-24 animate-pulse"
+            />
+          </div>
+          <p className="text-xl text-gray-600" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Loading...
+          </p>
         </div>
       </div>
     );
