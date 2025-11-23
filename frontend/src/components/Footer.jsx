@@ -1,3 +1,5 @@
+import  {Link} from 'react-router-dom'
+
 const categories = [
   { id: 'casual', name: 'Casual Wear', desc: 'Comfortable and trendy everyday outfits' },
   { id: 'fabric', name: "Fabrics",  desc: 'Professional attire for office and business' },
@@ -6,13 +8,9 @@ const categories = [
 ];
 
 const navigation = [
-  { id: 'home', name: 'Home' },
-  { id: 'casual', name: 'Casual Wear' },
-  { id: 'fabric', name: "Fabrics" },
-  { id: 'bridal', name: 'Bridal Wear' },
-  { id: 'accessories', name: 'Accessories' },
-  { id: 'about', name: 'About' },
-  { id: 'contact', name: 'Contact' },
+  { id: 'home', name: 'Home', go: '/' },
+  { id: 'about', name: 'About', go: '/about' },
+  { id: 'contact', name: 'Contact', go: '/contact' },
 ];
 
 export default function Footer({ currentPage, setCurrentPage }) {
@@ -28,12 +26,12 @@ export default function Footer({ currentPage, setCurrentPage }) {
               <ul className="space-y-2">
                 {navigation.map(item => (
                   <li key={item.id}>
-                    <button
+                    <Link to={`${item.go}`}
                       onClick={() => setCurrentPage(item.id)}
                       className="text-gray-300 hover:text-yellow-400 transition-colors text-left"
                     >
                       {item.name}
-                    </button>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -45,12 +43,12 @@ export default function Footer({ currentPage, setCurrentPage }) {
               <ul className="space-y-2">
                 {categories.map(category => (
                   <li key={category.id}>
-                    <button
+                    <Link to={`category/${category.id}`}
                       onClick={() => setCurrentPage(category.id)}
                       className="text-gray-300 hover:text-yellow-600 transition-colors text-left"
                     >
                      {category.name}
-                    </button>
+                    </Link>
                   </li>
                 ))}
               </ul>

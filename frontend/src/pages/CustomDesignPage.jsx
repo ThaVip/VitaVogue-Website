@@ -36,19 +36,19 @@ const CustomDesignPage = () => {
     {
       category: "Kaftans",
       images: [
-        "https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=400&h=500&fit=crop",
-        "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop",
-        "https://images.unsplash.com/photo-1583391733981-5bedbc7df85f?w=400&h=500&fit=crop",
-        "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400&h=500&fit=crop"
+        "https://i.pinimg.com/736x/92/eb/77/92eb77cc06254b944e1fece661727618.jpg",
+        "https://i.pinimg.com/736x/50/c4/cb/50c4cbdad06110b88efe938b50ecda2a.jpg",
+        "https://i.pinimg.com/1200x/cd/36/a0/cd36a0d1b8f09007e49ecdd7118f93bd.jpg",
+        "https://i.pinimg.com/736x/30/03/43/300343d56cb6b17a0231a6006c909f8a.jpg"
       ]
     },
     {
       category: "Bridal Wear",
       images: [
-        "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=500&fit=crop",
-        "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&h=500&fit=crop",
-        "https://images.unsplash.com/photo-1594552072238-52dc9a2ec498?w=400&h=500&fit=crop",
-        "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=500&fit=crop"
+        "https://i.pinimg.com/1200x/b2/cd/2c/b2cd2ceaa67a736fee7069becf5bf3f8.jpg",
+        "https://i.pinimg.com/1200x/ed/41/54/ed41543843c50e8908a965c9f9b06b64.jpg",
+        "https://i.pinimg.com/736x/39/dc/e4/39dce4fde62391c93c9097b5df5af5d8.jpg",
+        "https://i.pinimg.com/736x/f5/f6/f3/f5f6f3bc1bcd69912a3d0fccb35340ba.jpg"
       ]
     }
   ];
