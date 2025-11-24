@@ -1,177 +1,166 @@
-import User from "../models/user.model.js"
-import jwt from "jsonwebtoken"
+import User from "../models/user.model.js";
+import jwt from "jsonwebtoken";
+import { redis } from "../lib/redis.js";
 
-const generateToken = (userId) => {
-    const accessToken = jwt.sign({userId}, process.env.ACCESS_TOKEN, {
-        expiresIn: '15m'
-    })
+// Generate tokens
+const generateTokens = (userId) => {
+    const accessToken = jwt.sign({ userId }, process.env.ACCESS_TOKEN, {
+        expiresIn: "15m",
+    });
 
-    const refreshToken = jwt.sign({userId}, process.env.REFRESH_TOKEN, {
-        expiresIn: '7d'
-    }) 
+    const refreshToken = jwt.sign({ userId }, process.env.REFRESH_TOKEN, {
+        expiresIn: "7d",
+    });
 
-    return {accessToken, refreshToken}
-}
+    return { accessToken, refreshToken };
+};
 
-// ✅ Fixed setCookies with Partitioned attribute
-const setCookies = (res, accesstoken, refreshtoken) => {
-    const isProduction = process.env.NODE_ENV === "production";
-    
-    const cookieOptions = {
+// Store refresh token in Redis
+const storeRefreshToken = async (userId, refreshToken) => {
+    await redis.set(`refresh_token:${userId}`, refreshToken, "EX", 7 * 24 * 60 * 60); // 7 days
+};
+
+// Set cookies
+const setCookies = (res, accessToken, refreshToken) => {
+    res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: isProduction, // Must be true in production
-        sameSite: isProduction ? "none" : "lax", // ✅ Changed from "strict" to "lax"
-        partitioned: isProduction,
-        path: '/', // ✅ Add explicit path
-        domain: isProduction ? process.env.COOKIE_DOMAIN : undefined, // ✅ Add domain
-    };
-    
-    res.cookie("accessToken", accesstoken, {
-        ...cookieOptions,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
         maxAge: 15 * 60 * 1000, // 15 minutes
     });
-    
-    res.cookie("refreshToken", refreshtoken, {
-        ...cookieOptions,
+
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
-}
+};
 
 export const signup = async (req, res) => {
-    const {email, password, phone, name} = req.body
+    const { email, password, name, phone } = req.body;
     try {
-        const userExists = await User.findOne({email})
+        const userExists = await User.findOne({ email });
 
-        if(userExists){
-            return res.status(400).json({
-                success: false,
-                message: "user already exists"
-            })
+        if (userExists) {
+            return res.status(400).json({ message: "User already exists" });
         }
 
-        const user = await User.create({name, email, phone, password})
+        const user = await User.create({ name, email, phone, password });
 
-        const {accessToken, refreshToken} = generateToken(user._id)
+        // Generate tokens
+        const { accessToken, refreshToken } = generateTokens(user._id);
+        await storeRefreshToken(user._id, refreshToken);
 
-        setCookies(res, accessToken, refreshToken)
-        
-        // ✅ Return tokens in response for localStorage
+        // Set cookies
+        setCookies(res, accessToken, refreshToken);
+
+        // ✅ CRITICAL: Send tokens in response body for mobile compatibility
         res.status(201).json({
-            success: true,
-            user:{
+            user: {
                 userId: user._id,
                 name: user.name,
                 email: user.email,
-                phone: user.phone,
-                role: user.role
+                role: user.role,
             },
-            accessToken,  // ✅ Add this
-            refreshToken, // ✅ Add this
-            message: "user was created successfully"
-        })
+            accessToken,  // ✅ Include in response
+            refreshToken  // ✅ Include in response
+        });
     } catch (error) {
-        res.status(500).json({message: error.message}) 
+        console.log("Error in signup controller", error.message);
+        res.status(500).json({ message: error.message });
     }
-}
-export const logout = async (req, res) => {
-    try {
-        const isProduction = process.env.NODE_ENV === "production";
-        
-        const cookieOptions = {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "none" : "strict",
-            partitioned: isProduction, // ✅ Prevents Chrome warning
-        };
-        
-        res.clearCookie("accessToken", cookieOptions);
-        res.clearCookie("refreshToken", cookieOptions);
-
-        res.json({message: "Logout successful"});
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "server error",
-            error: error.message
-        })
-    }
-}
+};
 
 export const login = async (req, res) => {
     try {
-        const {email, password} = req.body
-        const user = await User.findOne({email})
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
 
-        if(user && (await user.comparePasswords(password))){
-            const {accessToken, refreshToken} = generateToken(user._id);
+        if (user && (await user.comparePassword(password))) {
+            // Generate tokens
+            const { accessToken, refreshToken } = generateTokens(user._id);
+            await storeRefreshToken(user._id, refreshToken);
 
-            setCookies(res, accessToken, refreshToken)
+            // Set cookies
+            setCookies(res, accessToken, refreshToken);
 
-            // ✅ Return tokens in response for localStorage
+            // ✅ CRITICAL: Send tokens in response body for mobile compatibility
             res.json({
-                success:true,
-                user:{
-                    userId: user._id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                },
-                accessToken,  // ✅ Add this
-                refreshToken  // ✅ Add this
-            })
+                userId: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                accessToken,  // ✅ Include in response
+                refreshToken  // ✅ Include in response
+            });
         } else {
-            res.status(401).json({message: "Invalid email or password"})
+            res.status(400).json({ message: "Invalid email or password" });
         }
     } catch (error) {
-        console.log("Error in login controller", error.message)
-        res.status(500).json({
-            message: error.message
-        })
+        console.log("Error in login controller", error.message);
+        res.status(500).json({ message: error.message });
     }
-}
+};
+
+export const logout = async (req, res) => {
+    try {
+        const refreshToken = req.cookies.refreshToken;
+        if (refreshToken) {
+            const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN);
+            await redis.del(`refresh_token:${decoded.userId}`);
+        }
+
+        res.clearCookie("accessToken");
+        res.clearCookie("refreshToken");
+        res.json({ message: "Logged out successfully" });
+    } catch (error) {
+        console.log("Error in logout controller", error.message);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
 
 export const refreshToken = async (req, res) => {
     try {
-        // ✅ Accept token from body OR cookie
-        const refreshToken = req.body.refreshToken || req.cookies.refreshToken;
-        
-        if(!refreshToken){
-            return res.status(401).json({message: "No refresh token provided"});
+        const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+
+        if (!refreshToken) {
+            return res.status(401).json({ message: "No refresh token provided" });
         }
 
-        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN)
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN);
+        const storedToken = await redis.get(`refresh_token:${decoded.userId}`);
 
-        const accessToken = jwt.sign({userId: decoded.userId}, process.env.ACCESS_TOKEN, {
-            expiresIn: '15m'
-        })
+        if (storedToken !== refreshToken) {
+            return res.status(401).json({ message: "Invalid refresh token" });
+        }
 
-        const isProduction = process.env.NODE_ENV === "production";
-        
+        const accessToken = jwt.sign({ userId: decoded.userId }, process.env.ACCESS_TOKEN, {
+            expiresIn: "15m",
+        });
+
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "none" : "lax",
-            partitioned: isProduction,
-            maxAge: 15 * 60 * 1000, 
-        })
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 15 * 60 * 1000,
+        });
 
-        // ✅ Return new token in response
-        res.status(200).json({
-            message: "Token Refreshed Successfully",
-            accessToken  // ✅ Add this
-        })
+        // ✅ Send new access token in response body
+        res.json({ 
+            accessToken,
+            message: "Token refreshed successfully" 
+        });
     } catch (error) {
-        console.log("Error in refreshToken controller", error.message)
-        res.status(500).json({message: "server error", error: error.message})
+        console.log("Error in refreshToken controller", error.message);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
-}
+};
 
-export const getUserProfile = async (req, res) => {
+export const getProfile = async (req, res) => {
     try {
-        const user = req.user;
-        res.json(user)
+        res.json(req.user);
     } catch (error) {
-        console.log("user not found", error.message)
-        res.status(500).json({message: "server error", error: error.message})
+        res.status(500).json({ message: "Server error", error: error.message });
     }
-}
+};
