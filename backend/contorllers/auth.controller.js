@@ -1,6 +1,5 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-import { redis } from "../lib/redis.js";
 
 // Generate tokens
 const generateTokens = (userId) => {
@@ -157,7 +156,7 @@ export const refreshToken = async (req, res) => {
     }
 };
 
-export const getProfile = async (req, res) => {
+export const getUserProfile = async (req, res) => {
     try {
         res.json(req.user);
     } catch (error) {
