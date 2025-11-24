@@ -37,11 +37,7 @@ export const useUserStore = create((set, get) => ({
                 console.log("❌ No refreshToken in response");
             }
             
-            const { user, accessToken, refreshToken } = res.data;
-            set({ user: user, loading: false });
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-
+            set({ user: res.data.user, loading: false });
             toast.success("Account created successfully!");
             return { success: true };
         } catch (error) {
@@ -88,11 +84,7 @@ export const useUserStore = create((set, get) => ({
             // 🔍 Verify storage
             console.log("🔍 LocalStorage accessToken:", localStorage.getItem('accessToken')?.substring(0, 20) + "...");
             
-            const { user, accessToken, refreshToken } = res.data;
-            set({ user: user, loading: false });
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-
+            set({ user: res.data.user || res.data, loading: false });
             toast.success("Welcome back!");
             return { success: true };
         } catch (error) {
