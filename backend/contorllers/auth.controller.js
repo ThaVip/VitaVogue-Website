@@ -54,18 +54,18 @@ export const signup = async (req, res) => {
         // Set cookies
         setCookies(res, accessToken, refreshToken);
 
-        // ✅ FIXED: Properly structured response
-        res.status(201).json({
+        // ✅ Include tokens in response
+        return res.status(201).json({
             userId: user._id,
             name: user.name,
             email: user.email,
             role: user.role,
-            accessToken,      // ✅ Include token
-            refreshToken      // ✅ Include token
+            accessToken: accessToken,      // ✅ Must include this
+            refreshToken: refreshToken     // ✅ Must include this
         });
     } catch (error) {
         console.log("Error in signup controller", error.message);
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 };
 
@@ -82,21 +82,21 @@ export const login = async (req, res) => {
             // Set cookies
             setCookies(res, accessToken, refreshToken);
 
-            // ✅ FIXED: Send properly structured response
-            res.json({
+            // ✅ CRITICAL: Include tokens in response body
+            return res.json({
                 userId: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
-                accessToken,      // ✅ Make sure these are included
-                refreshToken      // ✅ Make sure these are included
+                accessToken: accessToken,      // ✅ Must include this
+                refreshToken: refreshToken     // ✅ Must include this
             });
         } else {
-            res.status(400).json({ message: "Invalid email or password" });
+            return res.status(400).json({ message: "Invalid email or password" });
         }
     } catch (error) {
         console.log("Error in login controller", error.message);
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 };
 
