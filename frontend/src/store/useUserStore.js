@@ -21,7 +21,11 @@ export const useUserStore = create((set, get) => ({
             // 🔍 DEBUG: Log the entire response
             console.log("🔍 SIGNUP RESPONSE:", res.data);
             console.log("🔍 FULL RESPONSE OBJECT:", res);
-            
+            if(res.data.userId){
+                console.log("userId available", res.data.userId)
+            }else{
+                console.error("no userId", error.message)
+            }
             // ✅ Store tokens in localStorage for mobile compatibility
             if (res.data.accessToken) {
                 console.log("✅ Storing accessToken:", res.data.accessToken.substring(0, 20) + "...");
