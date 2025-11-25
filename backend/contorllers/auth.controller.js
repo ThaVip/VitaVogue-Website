@@ -54,16 +54,14 @@ export const signup = async (req, res) => {
         // Set cookies
         setCookies(res, accessToken, refreshToken);
 
-        // ✅ CRITICAL: Send tokens in response body for mobile compatibility
+        // ✅ FIXED: Properly structured response
         res.status(201).json({
-            user: {
-                userId: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-            },
-            accessToken,  // ✅ Include in response
-            refreshToken  // ✅ Include in response
+            userId: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            accessToken,      // ✅ Include token
+            refreshToken      // ✅ Include token
         });
     } catch (error) {
         console.log("Error in signup controller", error.message);
@@ -84,14 +82,14 @@ export const login = async (req, res) => {
             // Set cookies
             setCookies(res, accessToken, refreshToken);
 
-            // ✅ CRITICAL: Send tokens in response body for mobile compatibility
+            // ✅ FIXED: Send properly structured response
             res.json({
                 userId: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
-                accessToken,  // ✅ Include in response
-                refreshToken  // ✅ Include in response
+                accessToken,      // ✅ Make sure these are included
+                refreshToken      // ✅ Make sure these are included
             });
         } else {
             res.status(400).json({ message: "Invalid email or password" });

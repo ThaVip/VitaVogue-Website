@@ -55,52 +55,56 @@ export const useUserStore = create((set, get) => ({
         }
     },
 
-    login: async ({ email, password }) => {
-        set({ loading: true });
+login: async ({ email, password }) => {
+    set({ loading: true });
 
-        try {
-            const res = await axios.post("/auth/login", { email, password });
-            
-            // 🔍 DEBUG: Log the entire response
-            console.log("🔍 LOGIN RESPONSE:", res.data);
-            console.log("🔍 RESPONSE HEADERS:", res.headers);
-            console.log("🔍 COOKIES:", document.cookie);
-            
-            // ✅ Store tokens in localStorage for mobile compatibility
-            if (res.data.accessToken) {
-                console.log("✅ Storing accessToken:", res.data.accessToken.substring(0, 20) + "...");
-                localStorage.setItem('accessToken', res.data.accessToken);
-            } else {
-                console.log("❌ No accessToken in response.data");
-            }
-            
-            if (res.data.refreshToken) {
-                console.log("✅ Storing refreshToken");
-                localStorage.setItem('refreshToken', res.data.refreshToken);
-            } else {
-                console.log("❌ No refreshToken in response.data");
-            }
-            
-            // 🔍 Verify storage
-            console.log("🔍 LocalStorage accessToken:", localStorage.getItem('accessToken')?.substring(0, 20) + "...");
-            
-            set({ user: res.data.user || res.data, loading: false });
-            toast.success("Welcome back!");
-            return { success: true };
-        } catch (error) {
-            set({ loading: false });
-            if (error.response) {
-                console.error("Response error:", error.response);
-                toast.error(error.response.data.message || `Error ${error.response.status}: ${error.response.statusText}`);
-            } else if (error.request) {
-                toast.error("Cannot connect to server. Please check your connection.");
-            } else {
-                toast.error("An error occurred: " + error.message);
-            }
-            console.error("Login error:", error);
-            return { success: false };
+    try {
+        const res = await axios.post("/auth/login", { email, password });
+        
+        console.log("🔍 LOGIN RESPONSE:", res.data);
+        
+        // ✅ Handle both nested and flat response structures
+        const userData = res.data.user || {
+            userId: res.data.userId,
+            name: res.data.name,
+            email: res.data.email,
+            role: res.data.role
+        };
+        
+        const accessToken = res.data.accessToken;
+        const refreshToken = res.data.refreshToken;
+        
+        // ✅ Store tokens if they exist
+        if (accessToken) {
+            console.log("✅ Storing accessToken");
+            localStorage.setItem('accessToken', accessToken);
+        } else {
+            console.error("❌ No accessToken in response!");
         }
-    },
+        
+        if (refreshToken) {
+            console.log("✅ Storing refreshToken");
+            localStorage.setItem('refreshToken', refreshToken);
+        } else {
+            console.error("❌ No refreshToken in response!");
+        }
+        
+        set({ user: userData, loading: false });
+        toast.success("Welcome back!");
+        return { success: true };
+    } catch (error) {
+        set({ loading: false });
+        if (error.response) {
+            console.error("Response error:", error.response);
+            toast.error(error.response.data.message || `Error ${error.response.status}`);
+        } else if (error.request) {
+            toast.error("Cannot connect to server. Please check your connection.");
+        } else {
+            toast.error("An error occurred: " + error.message);
+        }
+        return { success: false };
+    }
+},
 
     logout: async () => {
         try {
