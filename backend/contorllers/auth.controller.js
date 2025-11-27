@@ -72,7 +72,7 @@ export const login = async (req, res) => {
         if (user && (await user.comparePassword(password))) {
             // Generate tokens
             const { accessToken, refreshToken } = generateTokens(user._id);
-            await storeRefreshToken(user._id, refreshToken);
+          
 
             // Set cookies
             setCookies(res, accessToken, refreshToken);
