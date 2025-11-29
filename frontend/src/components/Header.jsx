@@ -14,7 +14,7 @@ const navigation = [
 export default function Header() {
   const { user, logout } = useUserStore();
   const isAdmin = user?.role === "admin";
-  const { cart } = useCartStore(); 
+  const { cart } = useCartStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
@@ -33,7 +33,7 @@ export default function Header() {
   };
 
   return (
-    <header 
+    <header
       className="text-white sticky top-0 z-50 shadow-2xl relative"
       style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2148&q=80')`,
@@ -47,8 +47,8 @@ export default function Header() {
           {/* Logo with Fashion Font */}
           <div className="flex-shrink-0">
             <Link to="/">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-300 to-orange-400 bg-clip-text text-transparent tracking-wider drop-shadow-lg" 
-                  style={{ fontFamily: "'Italiana', serif" }}>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-300 to-orange-400 bg-clip-text text-transparent tracking-wider drop-shadow-lg"
+                style={{ fontFamily: "'Italiana', serif" }}>
                 VITAVOGUE
               </h1>
             </Link>
@@ -58,11 +58,10 @@ export default function Header() {
           <nav className="hidden lg:flex space-x-6 xl:space-x-8">
             {navigation.map(item => (
               <Link
-                to={item.go} 
+                to={item.go}
                 key={item.id}
-                className={`font-medium transition-colors duration-200 hover:text-yellow-400 text-sm tracking-wide ${
-                  isActiveNavItem(item) ? 'text-yellow-400' : 'text-white'
-                }`}
+                className={`font-medium transition-colors duration-200 hover:text-yellow-400 text-sm tracking-wide ${isActiveNavItem(item) ? 'text-yellow-400' : 'text-white'
+                  }`}
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
               >
                 {item.name}
@@ -85,7 +84,7 @@ export default function Header() {
             </div>
 
             {/* Cart */}
-            <Link 
+            <Link
               to='/cart'
               className=" text-black px-3 py-2 rounded-full font-bold hover:scale-105 transition-transform duration-200 flex items-center space-x-2 shadow-lg"
             >
@@ -137,17 +136,17 @@ export default function Header() {
               </div>
             )}
           </div>
-          
+
           {/* Mobile/Tablet Actions */}
           <div className="flex lg:hidden items-center space-x-3">
             {/* Mobile Cart Icon */}
-            <Link 
+            <Link
               to='/cart'
-              className="rounded-full shadow-lg"
+              className="relative p-2 rounded-full shadow-lg"
             >
-              <ShoppingCart className="w-5 h-5 text-gradient-to-r from-yellow-400 via-yellow-300 to-orange-400" />
+              <ShoppingCart className="w-6 h-6 text-yellow-400" />
               {getCartItemCount() > 0 && (
-                <span className="absolute -top-1 -right-0.5 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
                   {getCartItemCount()}
                 </span>
               )}
@@ -186,9 +185,8 @@ export default function Header() {
                   key={item.id}
                   to={item.go}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-left font-medium transition-colors duration-200 hover:text-yellow-400 px-2 py-2 rounded ${
-                    isActiveNavItem(item) ? 'text-yellow-400 bg-white/10 backdrop-blur-sm' : 'text-white'
-                  }`}
+                  className={`text-left font-medium transition-colors duration-200 hover:text-yellow-400 px-2 py-2 rounded ${isActiveNavItem(item) ? 'text-yellow-400 bg-white/10 backdrop-blur-sm' : 'text-white'
+                    }`}
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
                   {item.name}
