@@ -2,20 +2,62 @@ import { motion } from "framer-motion";
 import { Trash, Star, Package } from "lucide-react";
 import { useProductStore } from "../store/useProductStore";
 
-
 const ProductsList = () => {
   const { deleteProduct, toggleFeaturedProduct, products } = useProductStore();
 
-    console.log("products", products);
+  console.log("products", products);
 
   return (
     <motion.div
-      className="bg-white shadow-2xl rounded-3xl overflow-hidden max-w-6xl mx-auto border-2 border-yellow-400"
+      className="bg-white shadow-2xl rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden max-w-6xl mx-auto border-2 border-yellow-400"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="overflow-x-auto">
+      {/* Mobile Card View */}
+      <div className="block lg:hidden">
+        {products?.map((product) => (
+          <div key={product._id} className="border-b border-gray-200 p-4 hover:bg-gray-50 transition-colors">
+            <div className="flex gap-3">
+              <img
+                className="h-20 w-20 rounded-lg object-cover border-2 border-yellow-400 flex-shrink-0"
+                src={product.image}
+                alt={product.name}
+              />
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-bold text-gray-800 mb-1 truncate">{product.name}</h3>
+                <p className="text-base font-bold text-yellow-600 mb-2">
+                  ₦{product.price.toLocaleString()}
+                </p>
+                <span className="px-2 py-1 inline-flex text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                  {product.category}
+                </span>
+              </div>
+              <div className="flex flex-col gap-2 items-end">
+                <button
+                  onClick={() => toggleFeaturedProduct(product._id)}
+                  className={`p-2 rounded-full transition-all duration-300 ${
+                    product.isFeatured
+                      ? "bg-yellow-400 text-black hover:bg-yellow-500"
+                      : "bg-gray-200 text-gray-400 hover:bg-gray-300"
+                  }`}
+                >
+                  <Star className={`h-4 w-4 ${product.isFeatured ? 'fill-current' : ''}`} />
+                </button>
+                <button
+                  onClick={() => deleteProduct(product._id)}
+                  className="text-red-600 hover:text-red-800 transition-colors p-2"
+                >
+                  <Trash className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden lg:block overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gradient-to-r from-yellow-400 to-orange-400">
             <tr>
@@ -65,7 +107,7 @@ const ProductsList = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <button
-                    onClick={() =>toggleFeaturedProduct(product._id)}
+                    onClick={() => toggleFeaturedProduct(product._id)}
                     className={`p-2 rounded-full transition-all duration-300 ${
                       product.isFeatured
                         ? "bg-yellow-400 text-black hover:bg-yellow-500"
@@ -88,15 +130,15 @@ const ProductsList = () => {
           </tbody>
         </table>
       </div>
+
       {products?.length === 0 && (
         <div className="text-center py-12">
-          <Package className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-          <p className="text-gray-600 text-lg">No products yet. Create your first product!</p>
+          <Package className="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-gray-400 mb-4" />
+          <p className="text-gray-600 text-base sm:text-lg">No products yet. Create your first product!</p>
         </div>
       )}
     </motion.div>
   );
 };
-
 
 export default ProductsList;

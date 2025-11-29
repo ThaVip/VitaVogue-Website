@@ -25,7 +25,7 @@ const CartItem = ({ item }) => {
             {item.name}
           </h3>
           <p 
-            className='text-xs sm:text-sm text-gray-600 line-clamp-2'
+            className='text-s sm:text-sm text-gray-600 line-clamp-2'
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             {item.description}

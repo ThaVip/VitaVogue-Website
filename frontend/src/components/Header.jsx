@@ -144,7 +144,7 @@ export default function Header() {
               to='/cart'
               className="relative p-2 rounded-full shadow-lg"
             >
-              <ShoppingCart className="w-6 h-6 text-yellow-400" />
+              <ShoppingCart className="w-6 h-6 text-white" />
               {getCartItemCount() > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
                   {getCartItemCount()}

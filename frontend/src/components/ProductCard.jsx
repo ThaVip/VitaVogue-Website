@@ -42,7 +42,7 @@ const ProductCard = ({ product }) => {
                     {product.name}
                 </h3>
                 <p 
-                    className="text-gray-600 text-xs sm:text-sm mb-3 line-clamp-2"
+                    className="text-gray-600 text-s sm:text-sm mb-3 line-clamp-2"
                     style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
                     {product.description}
