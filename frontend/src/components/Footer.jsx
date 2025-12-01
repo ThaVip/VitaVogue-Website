@@ -69,7 +69,7 @@ export default function Footer() {
                   <p>📞 <a href="tel:+2348123755353" className="hover:text-yellow-600">+234 812 375 5353</a></p>
                 </div>
                 <div>
-                  <p>✉️ <a href="mailto:info@vitavogue.com.ng" className="hover:text-yellow-600">info@vitavogue.com.ng</a></p>
+                  <p>✉️ <a href="mailto:vitavogue_ltd@gmail.com" className="hover:text-yellow-600">vitavogue_ltd@gmail.com</a></p>
                 </div>
               </div>
 

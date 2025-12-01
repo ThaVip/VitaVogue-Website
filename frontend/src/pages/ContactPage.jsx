@@ -138,8 +138,8 @@ export default function ContactPage(){
                     Email
                   </h3>
                   <p className="text-gray-600 text-sm sm:text-base">
-                    <a href="mailto:info@vitavogue.com.ng" className="hover:text-yellow-600 transition-colors break-all">
-                      info@vitavogue.com.ng
+                    <a href="mailto:vitavogue_ltd@gmail.com" className="hover:text-yellow-600 transition-colors break-all">
+                      vitavogue_ltd@gmail.com
                     </a>
                   </p>
                 </div>
@@ -177,109 +177,7 @@ export default function ContactPage(){
                 </div>
               </div>
 
-              {/* Contact Form */}
-              <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 border-2 border-yellow-400/20">
-                <h3 
-                  className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  Send Us a Message
-                </h3>
-                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-                  {/* Status Message */}
-                  {status.message && (
-                    <div 
-                      className={`p-4 rounded-lg text-sm sm:text-base ${
-                        status.type === "success" 
-                          ? "bg-green-50 text-green-800 border-2 border-green-200" 
-                          : "bg-red-50 text-red-800 border-2 border-red-200"
-                      }`}
-                    >
-                      {status.message}
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                    <div>
-                      <label 
-                        className="block text-gray-700 font-bold mb-2 text-sm sm:text-base"
-                        style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                      >
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg focus:border-yellow-400 focus:outline-none transition-colors text-sm sm:text-base"
-                        placeholder="Your full name"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label 
-                        className="block text-gray-700 font-bold mb-2 text-sm sm:text-base"
-                        style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                      >
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg focus:border-yellow-400 focus:outline-none transition-colors text-sm sm:text-base"
-                        placeholder="your.email@example.com"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label 
-                      className="block text-gray-700 font-bold mb-2 text-sm sm:text-base"
-                      style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                    >
-                      Subject
-                    </label>
-                    <input
-                      type="text"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg focus:border-yellow-400 focus:outline-none transition-colors text-sm sm:text-base"
-                      placeholder="How can we help you?"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label 
-                      className="block text-gray-700 font-bold mb-2 text-sm sm:text-base"
-                      style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                    >
-                      Message
-                    </label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows={6}
-                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg focus:border-yellow-400 focus:outline-none transition-colors text-sm sm:text-base"
-                      placeholder="Tell us more about your inquiry..."
-                      required
-                    ></textarea>
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 text-black py-3 sm:py-4 rounded-lg font-bold hover:scale-105 transition-transform duration-300 shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                  >
-                    <Send className="w-4 h-4 sm:w-5 sm:h-5" />
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </button>
-                </form>
               </div>
-            </div>
           </section>
         </div>
         <Footer />
