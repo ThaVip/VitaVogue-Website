@@ -91,7 +91,7 @@ export default function Header() {
               <ShoppingCart className="w-5 h-5" />
               <span>Cart</span>
               {getCartItemCount() > 0 && (
-                <span className="bg-white text-yellow-400 rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                <span className="bg-red text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
                   {getCartItemCount()}
                 </span>
               )}
