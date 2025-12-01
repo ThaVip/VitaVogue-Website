@@ -60,7 +60,7 @@ export default function Header() {
               <Link
                 to={item.go}
                 key={item.id}
-                className={`font-medium transition-colors duration-200 hover:text-yellow-400 text-sm tracking-wide ${isActiveNavItem(item) ? 'text-yellow-400' : 'text-white'
+                className={`font-bold transition-colors duration-200 hover:text-yellow-400 text-sm tracking-wide ${isActiveNavItem(item) ? 'text-yellow-400' : 'text-white'
                   }`}
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
               >
@@ -86,12 +86,12 @@ export default function Header() {
             {/* Cart */}
             <Link
               to='/cart'
-              className=" text-black px-3 py-2 rounded-full font-bold hover:scale-105 transition-transform duration-200 flex items-center space-x-2 shadow-lg"
+              className=" text-white px-3 py-2 rounded-full font-bold hover:scale-105 transition-transform duration-200 flex items-center space-x-2 shadow-lg"
             >
               <ShoppingCart className="w-5 h-5" />
               <span>Cart</span>
               {getCartItemCount() > 0 && (
-                <span className="bg-black text-yellow-400 rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                <span className="bg-white text-yellow-400 rounded-full w-6 h-6 flex items-center justify-center text-sm">
                   {getCartItemCount()}
                 </span>
               )}

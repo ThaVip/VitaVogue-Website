@@ -37,7 +37,7 @@ const PeopleAlsoBought = () => {
   return (
     <div className='mt-8 sm:mt-10 md:mt-12 bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg'>
       <h3 
-        className='text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent'
+        className='text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent'
         style={{ fontFamily: "'Playfair Display', serif" }}
       >
         People Also Bought

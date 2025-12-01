@@ -53,7 +53,7 @@ const CartPage = () => {
 
         {/* Page Title */}
         <h1 
-          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 md:mb-8 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 md:mb-8 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
           Shopping Cart
