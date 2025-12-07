@@ -103,7 +103,7 @@ const CustomDesignPage = () => {
       {/* How It Works - Seamless Flow */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20">
         <h2 
-          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4 bg-yellow-700 bg-clip-text text-transparent"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
           How It Works
@@ -139,7 +139,7 @@ const CustomDesignPage = () => {
 
         {/* Design Gallery - Seamless */}
         <h2 
-          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4 text-yellow-700"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
           Design Inspiration
@@ -190,7 +190,7 @@ const CustomDesignPage = () => {
         {/* Why Choose Us - Seamless */}
         <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl sm:rounded-3xl shadow-xl p-6 sm:p-8 md:p-12 mb-8 sm:mb-10 md:mb-12 border-2 border-yellow-400/20">
           <h2 
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-2 sm:mb-3 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-2 sm:mb-3 text-yellow-700"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Why Choose Custom Design?

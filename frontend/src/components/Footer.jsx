@@ -66,7 +66,7 @@ export default function Footer() {
                   <p className="text-sm">Kano, Kano State</p>
                 </div>
                 <div>
-                  <p>📞 <a href="tel:+2348123755353" className="hover:text-yellow-600">+234 812 375 5353</a></p>
+                  <p>📞 <a href="tel:+2347045616961" className="hover:text-yellow-600">+234 704 561 6961</a></p>
                 </div>
                 <div>
                   <p>✉️ <a href="mailto:vitavogue_ltd@gmail.com" className="hover:text-yellow-600">vitavogue_ltd@gmail.com</a></p>

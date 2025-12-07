@@ -95,7 +95,7 @@ export default function ContactPage(){
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-8 sm:mb-10 md:mb-12">
                 <h2 
-                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent"
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 text-yellow-700"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
                   Get In Touch
@@ -121,8 +121,8 @@ export default function ContactPage(){
                     Phone
                   </h3>
                   <p className="text-gray-600 text-sm sm:text-base">
-                    <a href="tel:+2348123755353" className="hover:text-yellow-600 transition-colors">
-                      +234 812 375 5353
+                    <a href="tel:+2347045616961" className="hover:text-yellow-600 transition-colors">
+                      +234 704 561 6961
                     </a>
                   </p>
                 </div>

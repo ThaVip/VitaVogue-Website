@@ -70,7 +70,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
                       </h3>
                       <button
                         onClick={() => handleWhatsAppOrder(product)}
-                        className=" bg-gradient-to-r from-yellow-600 to-orange-600 text-white font-bold py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 rounded-md sm:rounded-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base shadow-lg">
+                        className=" bg-gradient-to-r from-yellow-700 to-yellow-900 text-white font-bold py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 rounded-md sm:rounded-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base shadow-lg">
                         <MessageCircle className='w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5' />
                         Place Oder
                       </button>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const CategoryCard = ({ category }) => {
   return (
     <Link to={`/category/${category.id}`}>
-      <div className="bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2 border-2 border-transparent overflow-hidden cursor-pointer group rounded-lg sm:rounded-xl">
+      <div className="bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2 border-2 border-transparent overflow-hidden cursor-pointer group ">
         
         {/* Image Container - Reduced height on mobile */}
         <div className="h-40 sm:h-48 md:h-56 lg:h-64 bg-gradient-to-br from-black to-gray-800 flex items-center justify-center overflow-hidden">

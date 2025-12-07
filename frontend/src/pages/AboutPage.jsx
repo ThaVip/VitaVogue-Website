@@ -11,7 +11,7 @@ export default function AboutPage(){
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
                 <div>
                   <h2 
-                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent"
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-yellow-700"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
                     About Vitavogue
@@ -73,7 +73,7 @@ export default function AboutPage(){
               {/* Our Story Section */}
               <div className="mt-12 sm:mt-16 md:mt-20 bg-white rounded-2xl sm:rounded-3xl shadow-xl p-6 sm:p-8 md:p-12 border-2 border-yellow-400/20">
                 <h3 
-                  className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 sm:mb-6 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent"
+                  className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 sm:mb-6 text-yellow-700"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
                   Our Story
@@ -83,7 +83,7 @@ export default function AboutPage(){
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
                   Founded with a passion for fashion and a commitment to quality, Vitavogue has grown to become 
-                  a trusted name in Nigerian fashion. We serve customers across Abuja, Bauchi, Maiduguri, and Kano, 
+                  a trusted name in Nigerian fashion. We serve customers across Abuja, Bauchi, Maiduguri, and Kano
                   bringing style and elegance to every corner of Nigeria.
                 </p>
               </div>

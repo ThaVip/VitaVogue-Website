@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
     };
 
     return (
-        <div className="bg-white rounded-lg sm:rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2 border-2 border-transparent hover:border-yellow-400 overflow-hidden group">
+        <div className="bg-white   shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2 border-2 border-transparent hover:border-yellow-700 overflow-hidden group">
             {/* Product Image - More space */}
             <div className="relative h-48 sm:h-56 md:h-64 lg:h-72 overflow-hidden">
                 <img
@@ -43,7 +43,7 @@ const ProductCard = ({ product }) => {
                     {product.description}
                 </p>
                 <button
-                    className=" bg-gradient-to-r from-yellow-600 to-orange-600 text-white font-bold py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 rounded-md sm:rounded-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base shadow-lg"
+                    className=" bg-gradient-to-r from-yellow-700 to-yellow-900 text-white font-bold py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 rounded-md sm:rounded-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base shadow-lg"
                     onClick={handleWhatsAppOrder}
                     type='button'
                 >
