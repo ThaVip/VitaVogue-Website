@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { Search, ShoppingCart, Menu, X, Lock, LogOut, UserPlus, LogIn } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { useUserStore } from '../store/useUserStore';
-import { useCartStore } from '../store/useCartStore';
 
 const navigation = [
   { id: 1, name: 'Home', go: '/' },
@@ -12,24 +10,11 @@ const navigation = [
 ];
 
 export default function Header() {
-  const { user, logout } = useUserStore();
-  const isAdmin = user?.role === "admin";
-  const { cart } = useCartStore();
-  const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
-  const getCartItemCount = () => {
-    return cart?.length || 0;
-  };
-
   const isActiveNavItem = (item) => {
     return location.pathname === item.go;
-  };
-
-  const handleLogout = () => {
-    logout();
-    setIsMenuOpen(false);
   };
 
   return (
@@ -69,79 +54,8 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center space-x-3 xl:space-x-4">
-        
-            {/* Cart */}
-            <Link
-              to='/cart'
-              className=" text-white px-3 py-2 rounded-full font-bold hover:scale-105 transition-transform duration-200 flex items-center space-x-2 shadow-lg"
-            >
-              <ShoppingCart className="w-5 h-5" />
-              <span>Cart</span>
-              {getCartItemCount() > 0 && (
-                <span className="bg-red text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
-                  {getCartItemCount()}
-                </span>
-              )}
-            </Link>
-
-            {/* Admin Dashboard */}
-            {isAdmin && (
-              <Link
-                to="/admin"
-                className="bg-yellow-400 hover:bg-yellow-500 text-black px-3 py-2 rounded-full font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg"
-              >
-                <Lock className="w-4 h-4" />
-                <span>Dashboard</span>
-              </Link>
-            )}
-
-            {/* Auth Buttons */}
-            {user ? (
-              <button
-                onClick={logout}
-                className="bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 text-white px-4 py-2 rounded-full font-medium transition-colors duration-300 flex items-center space-x-2"
-              >
-                <LogOut className="w-4 h-4" />
-                <span>Logout</span>
-              </button>
-            ) : (
-              <div className="flex items-center space-x-2">
-                <Link
-                  to="/signup"
-                  className="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-full font-bold transition-all duration-300 flex items-center space-x-2 shadow-lg"
-                >
-                  <UserPlus className="w-4 h-4" />
-                  <span>Sign Up</span>
-                </Link>
-                <Link
-                  to="/login"
-                  className="bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 text-white px-4 py-2 rounded-full font-medium transition-colors duration-300 flex items-center space-x-2"
-                >
-                  <LogIn className="w-4 h-4" />
-                  <span>Login</span>
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile/Tablet Actions */}
-          <div className="flex lg:hidden items-center space-x-3">
-            {/* Mobile Cart Icon */}
-            <Link
-              to='/cart'
-              className="relative p-2 rounded-full shadow-lg"
-            >
-              <ShoppingCart className="w-6 h-6 text-white" />
-              {getCartItemCount() > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                  {getCartItemCount()}
-                </span>
-              )}
-            </Link>
-
-            {/* Mobile Menu Toggle */}
+          {/* Mobile Menu Toggle */}
+          <div className="flex lg:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2 rounded-lg hover:bg-white/10 backdrop-blur-sm transition-colors"
@@ -152,11 +66,10 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile/Tablet Navigation Menu */}
+        {/* Mobile Navigation Menu */}
         {isMenuOpen && (
           <div className="lg:hidden py-4 border-t border-white/20">
             <div className="flex flex-col space-y-4">
-
               {/* Navigation Links */}
               {navigation.map(item => (
                 <Link
@@ -170,51 +83,6 @@ export default function Header() {
                   {item.name}
                 </Link>
               ))}
-
-              {/* Divider */}
-              <div className="border-t border-white/20 my-2"></div>
-
-              {/* Admin Dashboard - Mobile */}
-              {isAdmin && (
-                <Link
-                  to="/admin"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-3 rounded-lg font-bold transition-all duration-300 flex items-center space-x-2 shadow-lg"
-                >
-                  <Lock className="w-5 h-5" />
-                  <span>Admin Dashboard</span>
-                </Link>
-              )}
-
-              {/* Auth Buttons - Mobile */}
-              {user ? (
-                <button
-                  onClick={handleLogout}
-                  className="bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-300 flex items-center space-x-2 w-full"
-                >
-                  <LogOut className="w-5 h-5" />
-                  <span>Log Out</span>
-                </button>
-              ) : (
-                <div className="flex flex-col space-y-3">
-                  <Link
-                    to="/signup"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-4 py-3 rounded-lg font-bold transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg"
-                  >
-                    <UserPlus className="w-5 h-5" />
-                    <span>Sign Up</span>
-                  </Link>
-                  <Link
-                    to="/login"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 text-white px-4 py-3 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center space-x-2"
-                  >
-                    <LogIn className="w-5 h-5" />
-                    <span>Login</span>
-                  </Link>
-                </div>
-              )}
             </div>
           </div>
         )}

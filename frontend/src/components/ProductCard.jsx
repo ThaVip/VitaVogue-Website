@@ -1,20 +1,15 @@
 import React from 'react';
-import { ShoppingCart } from 'lucide-react';
-import { useUserStore } from '../store/useUserStore';
-import toast from 'react-hot-toast';
-import { useCartStore } from '../store/useCartStore';
+import { MessageCircle } from 'lucide-react';
 
 const ProductCard = ({ product }) => {
-    const { user } = useUserStore();
-    const { addToCart } = useCartStore();
-
-    const handleAddToCart = () => {
-        if (!user) {
-            toast.error("Please login to add products to cart", { id: "login" });
-            return;
-        } else {
-            addToCart(product);
-        }
+    const handleWhatsAppOrder = () => {
+        const phoneNumber = "2347045616961"; // WhatsApp number without + or spaces
+        const message = `Hello VitaVogue Team,\n\nI'm interested in purchasing the following product:\n\n*${product.name}*\n\nCould you please provide more information regarding availability, pricing, and delivery options?\n\nThank you.`;
+        
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        
+        window.open(whatsappURL, '_blank');
     };
 
     return (
@@ -42,21 +37,18 @@ const ProductCard = ({ product }) => {
                     {product.name}
                 </h3>
                 <p 
-                    className="text-gray-600 text-s sm:text-sm mb-3 line-clamp-2"
+                    className="text-gray-600 text-xs sm:text-sm mb-4 line-clamp-2"
                     style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
                     {product.description}
                 </p>
-                <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-yellow-600 mb-3 sm:mb-4">
-                    ₦{product.price.toLocaleString()}
-                </p>
                 <button
-                    className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 text-black font-bold py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 rounded-md sm:rounded-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base"
-                    onClick={handleAddToCart}
+                    className=" bg-gradient-to-r from-yellow-600 to-orange-600 text-white font-bold py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 rounded-md sm:rounded-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base shadow-lg"
+                    onClick={handleWhatsAppOrder}
                     type='button'
                 >
-                    <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span>Add to Cart</span>
+                    <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span>Place Oder</span>
                 </button>
             </div>
         </div>

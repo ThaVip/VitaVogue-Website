@@ -3,62 +3,48 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AdminPage from './pages/AdminPage';
 import CategoryPage from './pages/CategoryPage';
-import { useUserStore } from './store/useUserStore';
-import { useCartStore } from './store/useCartStore';
-import CartPage from './pages/CartPage';
-import PurchaseCancelPage from './pages/PurchaseCancelPage';
-import PurchaseSuccessPage from './pages/PurchaseSuccessPage';
 import CustomDesignPage from './pages/CustomDesignPage';
 import ScrollToTop from './components/ScrollToTop';
+import { useUserStore } from './store/useUserStore';
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore();
-  const { getCartItems } = useCartStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  // ✅ Fetch cart whenever user changes (login/logout)
-  useEffect(() => {
-    if (user) {
-      getCartItems();
-    }
-  }, [user, getCartItems]);
-
-
   if (checkingAuth) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black">
-  <div className="text-center">
-    <div className="inline-block mb-6">
-      <h1 
-        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-300 to-orange-400 bg-clip-text text-transparent tracking-wider drop-shadow-lg animate-pulse"
-        style={{ fontFamily: "'Italiana', serif" }}
-      >
-        VITAVOGUE
-      </h1>
-    </div>
-    
-    {/* Loading Spinner */}
-    <div className="flex justify-center">
-      <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
-    </div>
-    
-    {/* Optional Loading Text */}
-    <p 
-      className="mt-6 text-gray-400 text-sm sm:text-base animate-pulse"
-      style={{ fontFamily: "'Cormorant Garamond', serif" }}
-    >
-      Loading your fashion experience...
-    </p>
-  </div>
-</div>
+        <div className="text-center">
+          <div className="inline-block mb-6">
+            <h1 
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-yellow-400 via-yellow-300 to-orange-400 bg-clip-text text-transparent tracking-wider drop-shadow-lg animate-pulse"
+              style={{ fontFamily: "'Italiana', serif" }}
+            >
+              VITAVOGUE
+            </h1>
+          </div>
+          
+          {/* Loading Spinner */}
+          <div className="flex justify-center">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+          
+          {/* Optional Loading Text */}
+          <p 
+            className="mt-6 text-gray-400 text-sm sm:text-base animate-pulse"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
+            Loading your fashion experience...
+          </p>
+        </div>
+      </div>
     );
   }
 
@@ -74,30 +60,22 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/category/:category" element={<CategoryPage />} />
 
-          <Route
-            path="/login"
-            element={user ? <Navigate to="/" /> : <LoginPage />}
-          />
-          <Route
-            path="/signup"
-            element={user ? <Navigate to="/" /> : <SignUpPage />}
-          />
-          <Route
-            path="/cart"
-            element={user ? <CartPage /> : <LoginPage />}
-          />
+          {/* Admin Login Route - Anyone can access */}
+          <Route path="/admin-login" element={<LoginPage />} />
 
+          {/* Admin Route - Protected, requires admin role */}
           <Route
             path="/admin"
             element={
               user?.role === "admin" ? (
                 <AdminPage />
               ) : (
-                <Navigate to="/login" replace />
+                <Navigate to="/admin-login" replace />
               )
             }
           />
 
+          {/* 404 Page */}
           <Route
             path="*"
             element={
@@ -115,11 +93,6 @@ function App() {
               </div>
             }
           />
-          <Route
-            path='/purchase-successful'
-            element={user ? <PurchaseSuccessPage /> : <Navigate to='/login' />}
-          />
-          <Route path='/purchase-cancel' element={user ? <PurchaseCancelPage /> : <Navigate to='/login' />} />
         </Routes>
       </BrowserRouter>
     </>

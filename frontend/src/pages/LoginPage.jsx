@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, ArrowLeft, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, ArrowLeft, AlertCircle, Shield } from 'lucide-react';
 import { useUserStore } from '../store/useUserStore';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -75,7 +75,7 @@ export default function LoginPage() {
       const result = await login(formData);
       
       if (result?.success) {
-        navigate('/');
+        navigate('/admin');
       } else {
         // Display API error
         setApiError(result?.message|| 'Login failed. Please check your credentials.');
@@ -93,46 +93,52 @@ export default function LoginPage() {
   return (
     <>
       <Header />
-      <section className="min-h-screen py-16 md:py-24 bg-gradient-to-br from-gray-50 to-yellow-50">
+      <section className="min-h-screen py-16 md:py-24 bg-gradient-to-br from-gray-900 via-gray-800 to-black">
         <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Navigation */}
           <Link
             to="/"
-            className="inline-flex items-center space-x-2 text-gray-600 hover:text-yellow-600 mb-8 transition-colors"
+            className="inline-flex items-center space-x-2 text-gray-300 hover:text-yellow-400 mb-8 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>Back to Home</span>
           </Link>
 
           {/* Login Card */}
-          <div className="bg-white rounded-3xl shadow-2xl p-8">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl shadow-2xl p-8 border-2 border-yellow-400/20">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent mb-2">
-                Welcome Back
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full mb-4">
+                <Shield className="w-8 h-8 text-black" />
+              </div>
+              <h1 
+                className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent mb-2"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Admin Login
               </h1>
-              <p className="text-gray-600">Sign in to your Vitavogue account</p>
+              <p className="text-gray-400">Access the Vitavogue admin dashboard</p>
             </div>
 
             {/* API Error Message */}
             {apiError && (
               <div 
-                className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3"
+                className="mb-6 p-4 bg-red-900/30 border border-red-500/50 rounded-lg flex items-start gap-3"
                 role="alert"
               >
-                <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                <p className="text-red-600 text-sm">{apiError}</p>
+                <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                <p className="text-red-400 text-sm">{apiError}</p>
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               {/* Email Field */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                  Admin Email
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
+                    <Mail className="h-5 w-5 text-gray-500" />
                   </div>
                   <input
                     type="text"
@@ -140,17 +146,17 @@ export default function LoginPage() {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className={`w-full pl-12 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all ${
-                      errors.email ? 'border-red-300' : 'border-gray-300'
+                    className={`w-full pl-12 pr-4 py-3 bg-gray-700/50 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all text-white placeholder-gray-500 ${
+                      errors.email ? 'border-red-500/50' : 'border-gray-600'
                     }`}
-                   
+                    placeholder="admin@vitavogue.com"
                     disabled={loading}
                     aria-invalid={errors.email ? 'true' : 'false'}
                     aria-describedby={errors.email ? 'email-error' : undefined}
                   />
                 </div>
                 {errors.email && (
-                  <p id="email-error" className="text-red-500 text-sm mt-1" role="alert">
+                  <p id="email-error" className="text-red-400 text-sm mt-1" role="alert">
                     {errors.email}
                   </p>
                 )}
@@ -158,12 +164,12 @@ export default function LoginPage() {
 
               {/* Password Field */}
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                   Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-400" />
+                    <Lock className="h-5 w-5 text-gray-500" />
                   </div>
                   <input
                     type={showPassword ? 'text' : 'password'}
@@ -171,9 +177,10 @@ export default function LoginPage() {
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    className={`w-full pl-12 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all ${
-                      errors.password ? 'border-red-300' : 'border-gray-300'
+                    className={`w-full pl-12 pr-12 py-3 bg-gray-700/50 border rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all text-white placeholder-gray-500 ${
+                      errors.password ? 'border-red-500/50' : 'border-gray-600'
                     }`}
+                    placeholder="Enter your password"
                     disabled={loading}
                     aria-invalid={errors.password ? 'true' : 'false'}
                     aria-describedby={errors.password ? 'password-error' : undefined}
@@ -186,42 +193,36 @@ export default function LoginPage() {
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors" />
+                      <EyeOff className="h-5 w-5 text-gray-500 hover:text-gray-300 transition-colors" />
                     ) : (
-                      <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors" />
+                      <Eye className="h-5 w-5 text-gray-500 hover:text-gray-300 transition-colors" />
                     )}
                   </button>
                 </div>
                 {errors.password && (
-                  <p id="password-error" className="text-red-500 text-sm mt-1" role="alert">
+                  <p id="password-error" className="text-red-400 text-sm mt-1" role="alert">
                     {errors.password}
                   </p>
                 )}
               </div>
 
-              {/* Remember Me & Forgot Password */}
-              <div className="flex items-center justify-between">
+              {/* Remember Me */}
+              <div className="flex items-center">
                 <label className="flex items-center cursor-pointer">
                   <input
                     type="checkbox"
-                    className="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded cursor-pointer"
+                    className="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-600 rounded cursor-pointer bg-gray-700"
                     disabled={loading}
                   />
-                  <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                  <span className="ml-2 text-sm text-gray-400">Remember me</span>
                 </label>
-                <Link
-                  to="/forgot-password"
-                  className="text-sm text-yellow-600 hover:text-yellow-700 transition-colors"
-                >
-                  Forgot password?
-                </Link>
               </div>
 
               {/* Login Button */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 text-black font-bold py-3 px-6 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="w-full bg-gradient-to-r from-yellow-400 to-orange-400 text-black font-bold py-3 px-6 rounded-lg hover:shadow-lg hover:shadow-yellow-400/50 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -229,33 +230,16 @@ export default function LoginPage() {
                     Signing In...
                   </span>
                 ) : (
-                  'Sign In'
+                  'Access Admin Dashboard'
                 )}
               </button>
             </form>
 
-            {/* Divider */}
-            <div className="my-8">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300"></div>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">or</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Sign Up Link */}
-            <div className="text-center">
-              <p className="text-gray-600">
-                Don't have an account?{' '}
-                <Link
-                  to="/signup"
-                  className="text-yellow-600 hover:text-yellow-700 font-medium transition-colors"
-                >
-                  Sign up
-                </Link>
+            {/* Security Notice */}
+            <div className="mt-6 p-4 bg-yellow-400/10 border border-yellow-400/30 rounded-lg">
+              <p className="text-yellow-400 text-xs text-center flex items-center justify-center gap-2">
+                <Shield className="w-4 h-4" />
+                <span>This area is restricted to administrators only</span>
               </p>
             </div>
           </div>

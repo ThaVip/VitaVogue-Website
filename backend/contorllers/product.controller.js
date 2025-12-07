@@ -18,33 +18,21 @@ export const getAllProducts = async (req, res) => {
 
 export const getFeaturedProducts = async (req, res) => {
     try {
-        // //check redis for featured products
-        // const featuredProduct = await Redis.get("featured_Products")
-
-        // if(featuredProduct){
-        //     return res.status(200).json(featuredProduct)
-        // }
-
         const featured = await Product.find({isFeatured: true}).lean()
         
-          if(!featured || featured.length === 0){
+        if(!featured || featured.length === 0){
             return res.status(404).json({message: "No featured products found"})
         }
-
-        //store in redis
-        //await Redis.set("featured_products", JSON.stringify(featured))
 
         res.status(200).json(featured)
 
     } catch (error) {
         console.error("Unable to get featured products", error) 
-       res.status(500).json({
-        message: "server Problem",
-        error: error.message
-        
-    })
-}
-
+        res.status(500).json({
+            message: "server Problem",
+            error: error.message
+        })
+    }
 }
 
 export const createProduct = async (req, res) => {
@@ -76,9 +64,41 @@ export const createProduct = async (req, res) => {
             success: false,
             message: "Server error",
             error: error.message
-              });
+        });
     }
 }
+
+export const updateProduct = async (req, res) => {
+    try {
+        const { name, description, price, category } = req.body;
+        const product = await Product.findById(req.params.id);
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found",
+            });
+        }
+
+        // Update product fields
+        product.name = name || product.name;
+        product.description = description || product.description;
+        product.price = price || product.price;
+        product.category = category || product.category;
+
+        const updatedProduct = await product.save();
+
+        res.status(200).json(updatedProduct);
+
+    } catch (error) {
+        console.error("Error in updateProduct controller:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message
+        });
+    }
+};
 
 export const deleteProduct = async (req, res) => {
     try {
@@ -134,7 +154,8 @@ export const getReccomendedProducts = async (req, res) => {
 
         res.json(products); 
     } catch (error) {
-        
+        console.error("Error in getRecommendedProducts:", error);
+        res.status(500).json({message: "server error", error: error.message})
     }
 }
 
@@ -142,7 +163,6 @@ export const getProductsByCategory = async (req, res) => {
     const {category} = req.params
 
     try {
-        
         const products = await Product.find({category});
         res.json({products})
     } catch (error) {

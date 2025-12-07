@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import axios from "../../lib/axios";
-import { Users, Package, ShoppingCart, DollarSign } from "lucide-react";
+import { Users, Package, ShieldCheck, Star } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const AnalyticsTab = () => {
   const [analyticsData, setAnalyticsData] = useState({
     users: 0,
+    admins: 0,
     products: 0,
-    totalSales: 0,
-    totalRevenue: 0,
+    featuredProducts: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
   const [dailySalesData, setDailySalesData] = useState([]);
@@ -46,7 +46,13 @@ const AnalyticsTab = () => {
           title='Total Users'
           value={analyticsData.users.toLocaleString()}
           icon={Users}
-          color='from-yellow-400 to-orange-400'
+          color='from-blue-400 to-blue-500'
+        />
+        <AnalyticsCard
+          title='Total Admins'
+          value={analyticsData.admins.toLocaleString()}
+          icon={ShieldCheck}
+          color='from-purple-400 to-purple-500'
         />
         <AnalyticsCard
           title='Total Products'
@@ -55,20 +61,14 @@ const AnalyticsTab = () => {
           color='from-yellow-400 to-orange-500'
         />
         <AnalyticsCard
-          title='Total Sales'
-          value={analyticsData.totalSales.toLocaleString()}
-          icon={ShoppingCart}
+          title='Featured Products'
+          value={analyticsData.featuredProducts.toLocaleString()}
+          icon={Star}
           color='from-orange-400 to-red-400'
-        />
-        <AnalyticsCard
-          title='Total Revenue'
-          value={`₦${analyticsData.totalRevenue.toLocaleString()}`}
-          icon={DollarSign}
-          color='from-yellow-500 to-orange-500'
         />
       </div>
 
-      {/* Sales Chart */}
+      {/* Product Growth Chart */}
       <motion.div
         className='bg-white shadow-2xl rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 md:p-6 border-2 border-yellow-400'
         initial={{ opacity: 0, y: 20 }}
@@ -79,7 +79,7 @@ const AnalyticsTab = () => {
           className='text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent'
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          Sales & Revenue Overview
+          Product Growth (Last 7 Days)
         </h3>
         <ResponsiveContainer width='100%' height={300} className="sm:h-[400px]">
           <LineChart data={dailySalesData}>
@@ -91,15 +91,7 @@ const AnalyticsTab = () => {
               className="sm:text-xs"
             />
             <YAxis 
-              yAxisId='left' 
               stroke='#f59e0b'
-              style={{ fontSize: '10px' }}
-              className="sm:text-xs"
-            />
-            <YAxis 
-              yAxisId='right' 
-              orientation='right' 
-              stroke='#ef4444'
               style={{ fontSize: '10px' }}
               className="sm:text-xs"
             />
@@ -111,32 +103,20 @@ const AnalyticsTab = () => {
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                 fontSize: '12px'
               }}
+              formatter={(value) => [value, 'Products Added']}
             />
             <Legend 
               wrapperStyle={{ paddingTop: '10px', fontSize: '12px' }}
               className="sm:text-sm"
             />
             <Line
-              yAxisId='left'
               type='monotone'
               dataKey='sales'
               stroke='#f59e0b'
-              strokeWidth={2}
-              className="sm:strokeWidth-3"
-              activeDot={{ r: 6, fill: '#f59e0b' }}
-              name='Sales'
-              dot={{ fill: '#f59e0b', r: 3 }}
-            />
-            <Line
-              yAxisId='right'
-              type='monotone'
-              dataKey='revenue'
-              stroke='#ef4444'
-              strokeWidth={2}
-              className="sm:strokeWidth-3"
-              activeDot={{ r: 6, fill: '#ef4444' }}
-              name='Revenue (₦)'
-              dot={{ fill: '#ef4444', r: 3 }}
+              strokeWidth={3}
+              activeDot={{ r: 8, fill: '#f59e0b' }}
+              name='Products Added'
+              dot={{ fill: '#f59e0b', r: 4 }}
             />
           </LineChart>
         </ResponsiveContainer>
