@@ -3,6 +3,7 @@ import { MessageCircle, X, ZoomIn } from 'lucide-react';
 
 const ProductCard = ({ product }) => {
     const [isZoomed, setIsZoomed] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleWhatsAppOrder = () => {
         const phoneNumber = "2347045616961";
@@ -19,7 +20,7 @@ const ProductCard = ({ product }) => {
             <div className="bg-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 sm:hover:-translate-y-2 border-2 border-transparent hover:border-yellow-700 overflow-hidden group">
                 {/* Product Image - More space */}
                 <div 
-                    className="relative h-48 sm:h-56 md:h-64 lg:h-72 overflow-hidden cursor-pointer"
+                    className="relative h-48 sm:h-56 md:h-64 lg:h-72 overflow-hidden cursor-pointer bg-gray-100"
                     onClick={() => setIsZoomed(true)}
                 >
                     <img
@@ -85,11 +86,18 @@ const ProductCard = ({ product }) => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
                             {/* Image Section */}
-                            <div className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] bg-gray-100">
+                            <div className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] bg-white flex items-center justify-center">
+                                {!imageLoaded && (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-700"></div>
+                                    </div>
+                                )}
                                 <img
                                     src={product.image}
                                     alt={product.name}
                                     className="w-full h-full object-contain"
+                                    onLoad={() => setImageLoaded(true)}
+                                    style={{ opacity: imageLoaded ? 1 : 0 }}
                                 />
                                 {product.isFeatured && (
                                     <div className="absolute top-4 left-4 bg-black text-yellow-400 px-4 py-2 rounded-full text-sm font-bold">
