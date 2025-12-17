@@ -23,7 +23,7 @@ const CategoryPage = () => {
   const categoryData = {
     casual: { name: 'Casual Wear', desc: 'Comfortable and trendy everyday outfits including kaftans and relaxed wear' },
     fabric: { name: 'Fabrics', desc: 'Premium quality fabrics and materials for your sewing and fashion projects'},
-    bridal: { name: 'Bridal Wear',  desc: 'Elegant wedding and special occasion dresses' },
+    bridal: { name: 'Bridal Wear',  desc: 'Wedding and special occasion dresses' },
     accessories: { name: 'Accessories',  desc: 'Bags, jewelry and fashion accessories' },
   };
 
@@ -40,7 +40,7 @@ const CategoryPage = () => {
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Category Not Found</h2>
             <Link
               to="/"
-              className="bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform duration-300"
+              className="bg-yellow-700 text-black px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform duration-300"
             >
               Back to Home
             </Link>
@@ -68,7 +68,7 @@ const CategoryPage = () => {
 
           {/* Category Header */}
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent capitalize">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 bg-yellow-700 bg-clip-text text-transparent capitalize">
               {currentCategory.name}
             </h2>
             <p className="text-gray-700 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">{currentCategory.desc}</p>
@@ -98,7 +98,7 @@ const CategoryPage = () => {
               <p className="text-lg sm:text-xl text-gray-600 mb-6">No products available in this category yet.</p>
               <Link
                 to="/"
-                className="inline-block bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform duration-300"
+                className="inline-block bg-yellow-700 text-black px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform duration-300"
               >
                 Browse Other Categories
               </Link>

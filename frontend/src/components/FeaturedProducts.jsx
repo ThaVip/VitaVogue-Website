@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
-import { useCartStore } from "../store/useCartStore";
+import { MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 
 const FeaturedProducts = ({ featuredProducts }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(4);
-  const { addToCart } = useCartStore();
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,6 +28,16 @@ const FeaturedProducts = ({ featuredProducts }) => {
 
   const isStartDisabled = currentIndex === 0;
   const isEndDisabled = currentIndex >= featuredProducts.length - itemsPerPage;
+
+  const handleWhatsAppOrder = (product) => {
+    const phoneNumber = "2347045616961";
+    const message = `Hello VitaVogue Team,\n\nI'm interested in purchasing the following product:\n\n*${product.name}*\n\nCould you please provide more information regarding availability, pricing, and delivery options?\n\nThank you.`;
+    
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    window.open(whatsappURL, '_blank');
+  };
 
   return (
     <div className='py-8 sm:py-12 md:py-16 lg:py-24 bg-gray-50'>
@@ -56,19 +64,15 @@ const FeaturedProducts = ({ featuredProducts }) => {
                     </div>
                     
                     <div className='p-3 sm:p-4 md:p-5 lg:p-6'>
-                      <h3 className='text-sm sm:text-base md:text-lg lg:text-xl font-bold mb-1 sm:mb-2 text-gray-900 line-clamp-1'
+                      <h3 className='text-sm sm:text-base md:text-lg lg:text-xl font-bold mb-3 sm:mb-4 text-gray-900 line-clamp-2'
                       style={{ fontFamily: "'Italiana', serif" }}>
                         {product.name}
                       </h3>
-                      <p className='text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 md:mb-4 bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent'>
-                        ₦{product.price.toLocaleString()}
-                      </p>
                       <button
-                        onClick={() => addToCart(product)}
-                        className='w-full bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black font-bold py-1.5 sm:py-2 md:py-2.5 lg:py-3 px-3 sm:px-4 rounded-full transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 hover:scale-105 text-xs sm:text-sm md:text-base'
-                      >
-                        <ShoppingCart className='w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5' />
-                        Add to Cart
+                        onClick={() => handleWhatsAppOrder(product)}
+                        className=" bg-gradient-to-r from-yellow-700 to-yellow-900 text-white font-bold py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 rounded-md sm:rounded-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base shadow-lg">
+                        <MessageCircle className='w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5' />
+                        Place Oder
                       </button>
                     </div>
                   </div>

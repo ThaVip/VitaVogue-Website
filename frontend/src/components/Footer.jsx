@@ -1,9 +1,9 @@
-import  {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const categories = [
   { id: 'casual', name: 'Casual Wear', desc: 'Comfortable and trendy everyday outfits' },
-  { id: 'fabric', name: "Fabrics",  desc: 'Professional attire for office and business' },
-  { id: 'bridal', name: 'Bridal Wear',  desc: 'Elegant wedding and special occasion dresses' },
+  { id: 'fabric', name: "Fabrics", desc: 'Professional attire for office and business' },
+  { id: 'bridal', name: 'Bridal Wear', desc: 'Elegant wedding and special occasion dresses' },
   { id: 'accessories', name: 'Accessories', desc: 'Bags, jewelry, and fashion accessories' },
 ];
 
@@ -13,7 +13,7 @@ const navigation = [
   { id: 'contact', name: 'Contact', go: '/contact' },
 ];
 
-export default function Footer({ currentPage, setCurrentPage }) {
+export default function Footer() {
   return (
     <>
       <footer className="bg-black text-white py-12">
@@ -26,9 +26,9 @@ export default function Footer({ currentPage, setCurrentPage }) {
               <ul className="space-y-2">
                 {navigation.map(item => (
                   <li key={item.id}>
-                    <Link to={`${item.go}`}
-                      onClick={() => setCurrentPage(item.id)}
-                      className="text-gray-300 hover:text-yellow-400 transition-colors text-left"
+                    <Link 
+                      to={item.go}
+                      className="text-gray-300 hover:text-yellow-400 transition-colors block"
                     >
                       {item.name}
                     </Link>
@@ -43,11 +43,11 @@ export default function Footer({ currentPage, setCurrentPage }) {
               <ul className="space-y-2">
                 {categories.map(category => (
                   <li key={category.id}>
-                    <Link to={`category/${category.id}`}
-                      onClick={() => setCurrentPage(category.id)}
-                      className="text-gray-300 hover:text-yellow-600 transition-colors text-left"
+                    <Link 
+                      to={`/category/${category.id}`}
+                      className="text-gray-300 hover:text-yellow-600 transition-colors block"
                     >
-                     {category.name}
+                      {category.name}
                     </Link>
                   </li>
                 ))}
@@ -66,10 +66,10 @@ export default function Footer({ currentPage, setCurrentPage }) {
                   <p className="text-sm">Kano, Kano State</p>
                 </div>
                 <div>
-                  <p>📞 <a href="tel:+2348123755353" className="hover:text-yellow-600">+234 812 375 5353</a></p>
+                  <p>📞 <a href="tel:+2347045616961" className="hover:text-yellow-600">+234 704 561 6961</a></p>
                 </div>
                 <div>
-                  <p>✉️ <a href="mailto:info@vitavogue.com.ng" className="hover:text-yellow-600">info@vitavogue.com.ng</a></p>
+                  <p>✉️ <a href="mailto:vitavogue_ltd@gmail.com" className="hover:text-yellow-600">vitavogue_ltd@gmail.com</a></p>
                 </div>
               </div>
 
